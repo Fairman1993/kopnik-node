@@ -14,7 +14,7 @@ describe.only('meetKopa', () => {
     vk = container.vk
   })
 
-  it('success', async () => {
+  it('success2', async () => {
     await meetKopa(basename(__filename), [testUser(), konaz()], )
   })
 })
