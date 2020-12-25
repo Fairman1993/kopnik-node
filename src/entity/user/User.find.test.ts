@@ -4,8 +4,11 @@ import {User} from "@entity/user/User.entity"
 import userFactory from "@entity/user/test-utils/testUserFactory";
 
 describe('User', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await container.provideDatabase()
+  })
+  afterAll(async () => {
+    await container.db.close()
   })
 
   it('find', async () => {
