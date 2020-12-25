@@ -29,3 +29,7 @@ jobs:
               - run: docker-compose up -d db
               - run: docker-compose run app npm run typeorm:migration:run
               - run: docker-compose run app npm run test
+
+              - run: docker tag kopnik-node_app:latest kopnikorg/kopnik-node:latest
+              - run: docker login -u alexey2baranov -p ${{ DOCKER_PASSWORD }}
+              - run: docker push kopnikorg/kopnik-node:latest
