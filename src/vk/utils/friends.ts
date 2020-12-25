@@ -22,6 +22,8 @@ export default async function (users: User[], options: { wait?: boolean }, callb
   let lowestFriendStatus: number
   let areFriends: FriendsFriendStatusEx[]
 
+  console.log(users)
+
   // исключаем святослава из списка ожидаемых друзей самого себя, т.к. невозможно получить статуc FRIEND самому себе
   users = users.filter(u => u.mid !== svetoslav().mid)
   if (users.length) {
