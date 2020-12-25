@@ -5,7 +5,7 @@ import testUser from "@entity/user/test-utils/testUser";
 import meetKopa from "@/vk/meetKopa";
 import konaz from "@entity/user/konaz";
 
-describe('meetKopa', () => {
+describe.only('meetKopa', () => {
   let vk: VK,
     VK_TEST_USER = parseInt(process.env.VK_TEST_USER)
 
