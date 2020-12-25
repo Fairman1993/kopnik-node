@@ -13,8 +13,8 @@ services:
     env_file:
       - .env
     # restart: always
-    volumes:
-      - .:/app
+#    volumes:
+#      - .:/app
     ports:
       - ${APP_PORT}:3000
 
