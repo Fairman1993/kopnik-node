@@ -33,7 +33,7 @@ jobs:
               - run: npm run typeorm:migration:run
               - run: npm test
 
-#              push docker image
-              - run: docker tag kopnik-node_app:latest kopnikorg/kopnik-node:latest
+#              push docker image from master branch
+              - run: docker build --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/
               - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
               - run: docker push kopnikorg/kopnik-node:latest
