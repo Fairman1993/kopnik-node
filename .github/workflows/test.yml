@@ -23,13 +23,16 @@ jobs:
                 with:
                   node-version: 15.0.1
                   registry-url: https://registry.npmjs.org
+
+# prepare .env file
               - run: cp default.env .env
               - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
               - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
               - run: docker-compose up -d db
-              - run: docker-compose run app npm run typeorm:migration:run
-              - run: docker-compose run app npm run test
+              - run: npm run typeorm:migration:run
+              - run: npm run app npm run test
 
-              - run: docker tag kopnik-node_app:latest kopnikorg/kopnik-node:latest
-              - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
-              - run: docker push kopnikorg/kopnik-node:latest
+#              push docker image
+#              - run: docker tag kopnik-node_app:latest kopnikorg/kopnik-node:latest
+#              - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
+#              - run: docker push kopnikorg/kopnik-node:latest
