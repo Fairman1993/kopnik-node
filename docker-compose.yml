@@ -13,7 +13,7 @@ services:
     volumes:
       - ./.env:/app/.env
     ports:
-      - ${APP_PORT}:3000
+      - ${APP_PORT}:${APP_PORT}
 
     command: [ "npm", "start" ]
 #    command: [ "ping", "db" ]

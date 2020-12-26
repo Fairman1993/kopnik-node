@@ -22,11 +22,13 @@ logger.info(`process.NODE_ENV = ${process.env.NODE_ENV}`);
 
   if (process.env.NODE_ENV === 'test') {
     app.listen(process.env.APP_PORT)
+    logger.info(`Express server has started on port ${process.env.APP_PORT}. Open http://localhost:${process.env.APP_PORT}/api/test/ping?qwerty to see results`)
   } else {
     https.createServer({
       key: fs.readFileSync('server.key'),
       cert: fs.readFileSync('server.cert')
     }, app).listen(process.env.APP_PORT)
+    logger.info(`Express server has started on port ${process.env.APP_PORT}. Open https://localhost:${process.env.APP_PORT}/api/test/ping?qwerty to see results`)
   }
-  logger.info(`Express server has started on port ${process.env.APP_PORT}. Open https://localhost:${process.env.APP_PORT}/api/test/ping?qwerty to see results`)
+
 })()
