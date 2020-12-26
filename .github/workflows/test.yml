@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ls -a via ssh
-        uses: garygrossgarten/github-action-ssh@release
+        uses: alexey2baranov/github-action-ssh@release
         with:
           command: |
             cd /tmp
