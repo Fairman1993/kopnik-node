@@ -3,6 +3,16 @@
     <method v="2" />
   </configuration>
   <configuration default="false" name="ts-node" type="NodeJSConfigurationType" singleton="true" node-parameters="--require ts-node/register -r tsconfig-paths/register -r dotenv/config" path-to-js-file="src/index.ts" working-dir="$PROJECT_DIR$">
-    <method v="2" />
+    <method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="env:development" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+    </method>
   </configuration>
 </component>

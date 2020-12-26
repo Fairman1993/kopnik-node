@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "Official kopnik.org server",
   "scripts": {
-    "start": "node --require ts-node/register -r tsconfig-paths/register src/index.ts",
+    "db": "docker-compose up db",
+    "start": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config src/index.ts",
+    "createUser:test": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config src/utils/createTestUser",
+    "createUser:svetoslav": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config src/utils/createSvetoslav",
     "test": "./node_modules/.bin/jest  --runInBand --testTimeout=10000",
     "typeorm": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm/cli.js",
     "typeorm:schema:log": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm/cli.js schema:log",
@@ -11,7 +14,6 @@
     "typeorm:migration:create": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm/cli.js migration:create",
     "typeorm:migration:generate": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm/cli.js migration:generate",
     "typeorm:migration:run": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm/cli.js migration:run",
-    "db": "docker-compose up db",
     "env:test": "cp .env.test .env",
     "env:development": "cp .env.development .env"
   },
@@ -42,6 +44,7 @@
     "i18next": "^19.8.4",
     "inversify": "^5.0.1",
     "js-base64": "^3.6.0",
+    "leaflet": "^1.7.1",
     "lodash": "^4.17.20",
     "md5": "^2.3.0",
     "nodemon": "^2.0.4",

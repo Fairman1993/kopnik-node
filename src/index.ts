@@ -4,6 +4,7 @@ import fs from 'fs'
 import app from './app';
 import container from "@/di/container";
 import {basename} from "path";
+import '@/utils/checkEnv'
 import {types} from 'pg'
 
 

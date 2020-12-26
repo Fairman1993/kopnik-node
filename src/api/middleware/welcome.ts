@@ -19,7 +19,7 @@ export default async function (req: Request, res: Response, next: Function) {
     body: req.body,
   }, req.url)
 
-  await new Promise(res=>setTimeout(res,100))
+  // await new Promise(res=>setTimeout(res,100))
 
   next()
 }
