@@ -7,6 +7,16 @@
     <jest-options value="--watchAll --testTimeout=1000000 --testMatch=&quot;&lt;rootDir&gt;/src/**/*.test.ts&quot;" />
     <envs />
     <scope-kind value="ALL" />
-    <method v="2" />
+    <method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="env:test" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+    </method>
   </configuration>
 </component>
