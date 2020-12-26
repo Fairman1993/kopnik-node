@@ -47,6 +47,7 @@ jobs:
         name: deploy
         runs-on: ubuntu-latest
         steps:
+
               - run: sudo apt-get update && sudo apt-get install -y sshpass
               - run: sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@staging.kopnik.org "cd ${{ secrets.SSH_PATH }} && git pull && docker-compose down && docker-compose pull && docker-compose up -d"
 
