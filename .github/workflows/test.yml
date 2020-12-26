@@ -47,6 +47,16 @@ jobs:
     name: deploy
     runs-on: ubuntu-latest
     steps:
+      - name: ls -a via ssh
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            cd /tmp
+            ls -a
+          host: ${{ secrets.SSH_HOST }}
+          username: someuser
+          passphrase: ${{ secrets.SSH_PASSWORD }}
+
       - name: via ssh
         uses: fifsky/ssh-action@master
         with:
