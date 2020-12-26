@@ -55,7 +55,7 @@ jobs:
             ls -a
           host: ${{ secrets.SSH_HOST }}
           username: someuser
-          passphrase: ${{ secrets.SSH_PASSWORD }}
+          password: ${{ secrets.SSH_PASSWORD }}
 
       - name: via ssh
         uses: fifsky/ssh-action@master
