@@ -31,7 +31,7 @@ jobs:
               - run: docker-compose up -d db
               - run: npm i
               - run: npm run typeorm:migration:run
-              - run: npm run app npm run test
+              - run: npm test
 
 #              push docker image
 #              - run: docker tag kopnik-node_app:latest kopnikorg/kopnik-node:latest
