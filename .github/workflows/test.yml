@@ -46,8 +46,8 @@ jobs:
 
   deploy:
     name: deploy
-#    needs:
-#      - build
+    needs:
+      - build
     runs-on: ubuntu-latest
     steps:
       - name: ssh
