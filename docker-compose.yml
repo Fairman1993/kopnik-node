@@ -1,25 +1,22 @@
 version: '3.7'
 services:
   app:
-    # container_name: kopnik-node_app_${NODE_ENV}
-    build:
-      context: .
-      dockerfile: ./.docker/app/Dockerfile
-    # container_name: ${NODE_ENV}app
+#     container_name: kopnik-node_app_${NODE_ENV}
+    image: kopnikorg/kopnik-node:latest
     environment:
       # переопределяем параметры подключения для работы сервера в контейнере
       DB_HOST: db
       DB_PORT: 5432
-    env_file:
-      - .env
+#    env_file:
+#      - .env
     # restart: always
-#    volumes:
-#      - .:/app
+    volumes:
+      - ./.env:/app/.env
     ports:
       - ${APP_PORT}:3000
 
     command: [ "npm", "start" ]
-  # command: [ "ping", "db" ]
+#    command: [ "ping", "db" ]
 
   db:
     # container_name: kopnik-node_db_${NODE_ENV}

@@ -3,7 +3,7 @@ import {Request, Response} from "express";
 import container from "@/di/container";
 import {basename} from "path";
 import context from "@/context/context";
-import {Between, getRepository, LessThan, MoreThan} from "typeorm";
+import {Between, getRepository, LessThan, LessThanOrEqual, MoreThan} from "typeorm";
 import {User} from "@entity/user/User.entity";
 import plain from "@entity/user/plain";
 import response from "@api/response";
@@ -21,7 +21,10 @@ export default async function (req: Request, res: Response) {
     where: {
       latitude: Between(y1, y2),
       longitude: Between(x1, x2),
+      rank: LessThanOrEqual(maxRank)
     },
+    order: {rank: 'DESC'},
+    take: 10,
     relations: ['foreman', 'foremanRequest'] // foremanRequest добавляем для себя любимого, а то перетрется пустым значением
   })
 

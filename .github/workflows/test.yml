@@ -31,15 +31,16 @@ jobs:
               - run: docker-compose up -d db
               - run: npm i
               - run: npm run typeorm:migration:run
-              - run: npm run env:test && npm test
+              - run: npm test
 
-#              push docker image
-#              - run: docker tag kopnik-node_app:latest kopnikorg/kopnik-node:latest
-#              - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
-#              - run: docker push kopnikorg/kopnik-node:latest
+#              push docker image from master branch
+              - run: docker build --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/
+              - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
+              - run: docker push kopnikorg/kopnik-node:latest
     deploy:
         name: deploy
         runs-on: ubuntu-latest
         steps:
               - run: sudo apt-get update && sudo apt-get install -y sshpass
               - run: sshpass -p ${{ secrets.ssh_password }} ssh -o StrictHostKeyChecking=no ${{ secrets.ssh_user }}@${{ secrets.ssh_hostname }} "cd ${{ secrets.ssh_path }} && git pull && docker-compose down && docker-compose up -d"
+

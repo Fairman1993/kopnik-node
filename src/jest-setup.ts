@@ -6,5 +6,7 @@ dotenv.config({
   path: '.env'
 })
 
+import '@/utils/checkEnv'
+
 import {types} from 'pg'
 types.setTypeParser(20, Number);
