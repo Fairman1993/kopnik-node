@@ -1,9 +1,4 @@
 import container from "@/di/container"
-import {getManager, getRepository} from "typeorm"
-import {User} from "@entity/user/User.entity"
-import userFactory from "@entity/user/test-utils/testUserFactory";
-import IVk from "@/di/vk-io/IVk";
-import easyvk from 'easyvk'
 import {VK} from "vk-io";
 import TYPES from "@/di/TYPES";
 import _ from 'lodash'

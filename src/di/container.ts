@@ -61,7 +61,6 @@ import './db/dbOptions'
 import './db/db'
 
 // vk
-import "@/di/vk-io/vk";
 import "@/di/vk-io/vk-io";
 
 
