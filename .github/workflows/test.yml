@@ -14,37 +14,40 @@ on:
       - feature*
 
 jobs:
-#  test:
-#    name: test
-#
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: actions/setup-node@v1
-#        with:
-#          node-version: 15.0.1
-#          registry-url: https://registry.npmjs.org
-#
-#      # prepare .env file
-#      - run: cp default.env .env
-#      - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
-#      - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
-#
-#      - run: docker-compose up -d db
-#      - run: npm i
-#      - run: npm run typeorm:migration:run
-#      - run: npm test
-#
-#  build:
-#    name: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - run: docker build --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/
-#      - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
-#      - run: docker push kopnikorg/kopnik-node:latest
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15.0.1
+          registry-url: https://registry.npmjs.org
+
+      # prepare .env file
+      - run: cp default.env .env
+      - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
+      - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
+
+      - run: docker-compose up -d db
+      - run: npm i
+      - run: npm run typeorm:migration:run
+      - run: npm test
+
+  build:
+    name: build
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker build --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/
+      - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push kopnikorg/kopnik-node:latest
 
   deploy:
     name: deploy
+#    needs:
+#      - build
     runs-on: ubuntu-latest
     steps:
       - name: ssh
@@ -62,11 +65,3 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: someuser
           password: ${{ secrets.SSH_PASSWORD }}
-
-#                - run: cp default.env .env
-#                - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
-#                - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
-#
-#                - run: sudo apt-get update && sudo apt-get install -y sshpass
-#                - run: sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@staging.kopnik.org "cd ${{ secrets.SSH_PATH }} && git pull && docker-compose down && docker-compose pull && docker-compose up -d"
-
