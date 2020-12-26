@@ -1,65 +1,67 @@
 name: "test"
 env:
-    DB_USER: db_user
-    DB_PASSWORD: db_password
-    DB_DB: db_name
-    DB_PORT: 5432
-    DB_HOST: localhost
-    NODE_ENV: test
+  DB_USER: db_user
+  DB_PASSWORD: db_password
+  DB_DB: db_name
+  DB_PORT: 5432
+  DB_HOST: localhost
+  NODE_ENV: test
 on:
-    push:
-        branches:
-           - main
-           - fix*
-           - feature*
+  push:
+    branches:
+      - main
+      - fix*
+      - feature*
 
 jobs:
-    test:
-        name: test
+  test:
+    name: test
 
-        runs-on: ubuntu-latest
-        steps:
-              - uses: actions/checkout@v2
-              - uses: actions/setup-node@v1
-                with:
-                  node-version: 15.0.1
-                  registry-url: https://registry.npmjs.org
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15.0.1
+          registry-url: https://registry.npmjs.org
 
-              # prepare .env file
-              - run: cp default.env .env
-              - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
-              - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
+      # prepare .env file
+      - run: cp default.env .env
+      - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
+      - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
 
-              - run: docker-compose up -d db
-              - run: npm i
-              - run: npm run typeorm:migration:run
-              - run: npm test
+      - run: docker-compose up -d db
+      - run: npm i
+      - run: npm run typeorm:migration:run
+      - run: npm test
 
-    build:
-        name: build
-        runs-on: ubuntu-latest
-        steps:
-              - run: docker build --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/
-              - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
-              - run: docker push kopnikorg/kopnik-node:latest
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker build --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/
+      - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push kopnikorg/kopnik-node:latest
 
-    deploy:
-        name: deploy
-        runs-on: ubuntu-latest
-        steps:
-            - uses: garygrossgarten/github-action-ssh@release
-            - with:
-                command: |
-                  ls -a
-                  cd /
-                  cd ~/www-docker/kopnik-client
-                host: ${{ secrets.HOST }}
-                username: ${{ secrets.SSH_USER }}
-                password: ${{ secrets.SSH_PASSWORD }}
-#                env:
-#                  CI: true
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: via ssh
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd /tmp
+            ls -a
+          host: ${{ secrets.HOST }}
+          user: someuser
+          pass: ${{ secrets.SSH_PASSWORD}}
 
-                # prepare .env file
+
+            #                env:
+            #                  CI: true
+
+          # prepare .env file
 #                - run: cp default.env .env
 #                - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
 #                - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
