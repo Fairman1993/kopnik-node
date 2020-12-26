@@ -57,7 +57,7 @@ jobs:
             sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
             git pull
             docker-compose down
-            docker-compose pull
+            docker-compose pull --quiet
             docker-compose up -d
           host: ${{ secrets.SSH_HOST }}
           username: someuser
