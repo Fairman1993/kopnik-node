@@ -1,25 +1,19 @@
 version: '3.7'
 services:
   app:
-#     container_name: kopnik-node_app_${NODE_ENV}
     image: kopnikorg/kopnik-node:latest
     environment:
       # переопределяем параметры подключения для работы сервера в контейнере
       DB_HOST: db
       DB_PORT: 5432
-#    env_file:
-#      - .env
-    # restart: always
     volumes:
       - ./.env:/app/.env
     ports:
+      # внутри тоже порты разные, чтобы можно было и без контейнера одновременно  запустить сервера дев и тест
       - ${APP_PORT}:${APP_PORT}
-
     command: [ "npm", "start" ]
-#    command: [ "ping", "db" ]
 
   db:
-    # container_name: kopnik-node_db_${NODE_ENV}
     image: postgres
     restart: always
     environment:
@@ -31,7 +25,16 @@ services:
       - ../kopnik-db/dumps-${NODE_ENV}:/var/lib/postgresql/dumps
     ports:
       - ${DB_PORT}:5432
-#   networks:
-#    - backend
 
+  client:
+    image: kopnikorg/kopnik-client:latest
+    # тут надо папку /app/dist сделать видимой контейнеру nginx
+    volumes:
+      - client-dist:/app/dist
 
+  nginx:
+    image: kopnikorg/kopnik-nginx:latest
+    restart: always
+    # тут надо папку /app/dist клинета подмапить себе и отдавать пользователю ее содержание
+    volumes:
+      - client-dist:/www/app
