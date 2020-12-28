@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  app:
+  node:
     image: kopnikorg/kopnik-node:latest
     environment:
       # переопределяем параметры подключения для работы сервера в контейнере
@@ -38,3 +38,6 @@ services:
     # тут надо папку /app/dist клинета подмапить себе и отдавать пользователю ее содержание
     volumes:
       - client-dist:/www/app
+
+volumes:
+  client-dist:
