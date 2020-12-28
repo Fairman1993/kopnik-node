@@ -56,9 +56,9 @@ jobs:
             sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
             sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
             git pull
-            docker-compose down
+            docker-compose down --remove-orphans
             docker-compose pull --quiet
             docker-compose up -d
-          host: ${{ secrets.SSH_HOST }}
+          host: staging.kopnik.org
           username: someuser
           password: ${{ secrets.SSH_PASSWORD }}
