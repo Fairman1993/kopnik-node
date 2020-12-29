@@ -51,13 +51,13 @@ container.bind<interfaces.Factory<Logger>>(TYPES.createLogger).toFactory((contex
         break
       case 'production':
       case 'staging':
-        (defaultOptions.streams as any).push({
-          type: "rotating-file",
-          path: resolve(__dirname, '../../logs', process.env.NODE_ENV + ".log"),
-          period: "1d",   // daily rotation
-          count: 100,        // keep 100 back copies
-          level: "debug"
-        })
+        // (defaultOptions.streams as any).push({
+        //   type: "rotating-file",
+        //   path: resolve(__dirname, '../../../logs', process.env.NODE_ENV + ".log"),
+        //   period: "1d",   // daily rotation
+        //   count: 100,        // keep 100 back copies
+        //   level: "debug"
+        // })
         break
     }
     const loggerOptions = _.merge(defaultOptions, options)
