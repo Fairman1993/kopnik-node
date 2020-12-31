@@ -28,30 +28,31 @@ services:
 
   client:
     image: kopnikorg/kopnik-client:latest
-    # тут надо папку /app/dist сделать видимой контейнеру nginx
     volumes:
-      - client-dist:/app/dist
+      - dist:/app/dist
+    command: [ "sleep", "1000000" ]
 
   nginx:
-#    image: kopnikorg/kopnik-nginx:latest
     image: nginx:latest
-#    restart: always
+    volumes:
+      - /home/someuser/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /home/someuser/nginx/templates:/etc/nginx/templates
+      - /home/someuser/certs:/etc/nginx/certs/
+      - dist:/app/dist
     ports:
       - "80:80"
       - "443:443"
-    # тут надо папку /app/dist клинета подмапить себе и отдавать пользователю ее содержание
-    volumes:
-      - ./data/nginx:/etc/nginx/conf.d
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+    environment:
+      - NGINX_HOST=staging.kopnik.org
+    network_mode: host
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   certbot:
     image: certbot/certbot
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
+      - /home/someuser/certs:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
-  client-dist:
+  dist:
