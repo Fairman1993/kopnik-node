@@ -3,7 +3,7 @@ import {Request, Response} from "express";
 import container from "@/di/container";
 import {basename} from "path";
 import context from "@/context/context";
-import {getRepository} from "typeorm";
+import {getManager, getRepository} from "typeorm";
 import {User} from "@entity/user/User.entity";
 import response from "@api/response";
 import merge from "@entity/user/merge";
@@ -45,7 +45,7 @@ export default async function (req: Request, res: Response) {
       .then(async chat => {
         if (!user.witnessChat?.id) {
           user.witnessChat = chat
-          await em.update(User, user.id, {witnessChat: user.witnessChat})
+          await getManager().update(User, user.id, {witnessChat: user.witnessChat})
         }
       })
 

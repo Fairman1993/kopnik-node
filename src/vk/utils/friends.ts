@@ -13,7 +13,8 @@ import svetoslav from "@entity/user/konaz";
 /**
  * Проверяет дружбу,
  * ожидает пока не станут друзьями
- * информирует о статусах NotFriend и !Friend
+ * информирует о статусах ISendRequest и HeSendRequest
+ * NotFriend не будет ждать вовсе, вместо этого выбросит ошибку. Потому что если заявка не подана, мало шансов, что ее додумаются подать и подтвердить
  */
 export default async function (users: User[], options: { wait?: boolean }, callback: (friendStatuses?: FriendsFriendStatusEx[]) => Promise<void>): Promise<void> {
   const vk = container.vk

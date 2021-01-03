@@ -27,7 +27,7 @@ const constants = {
       "logging": true,
     },
     messaging: {
-      waitFriendDelay: 0,
+      waitFriendDelay: 1,
       baseClientUrl: 'https://localhost:8080/',
     }
   },
