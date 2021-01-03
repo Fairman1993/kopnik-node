@@ -10,6 +10,7 @@ export default function (user: User, options: { isCurrentUser?: boolean, isForem
     photo: user.photo,
     location: {lat: user.latitude, lng: user.longitude},
     birthYear: user.birthYear,
+    role: user.role,
     isWitness: user.isWitness,
     status: user.status,
     rank: user.rank,
