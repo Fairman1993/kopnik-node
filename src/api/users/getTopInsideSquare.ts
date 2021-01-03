@@ -8,6 +8,7 @@ import {User} from "@entity/user/User.entity";
 import plain from "@entity/user/plain";
 import response from "@api/response";
 import plainForCurrentUser from "@entity/user/plainForCurrentUser";
+import StatusEnum from "@entity/user/StatusEnum";
 
 
 /**
@@ -19,6 +20,7 @@ export default async function (req: Request, res: Response) {
 
   const users = await getRepository(User).find({
     where: {
+      status: StatusEnum.Confirmed,
       latitude: Between(y1, y2),
       longitude: Between(x1, x2),
       rank: LessThanOrEqual(maxRank)
