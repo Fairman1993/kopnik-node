@@ -36,15 +36,18 @@ export default async function (req: Request, res: Response) {
       status: StatusEnum.Pending,
     })
     user.witness = await em.findOneOrFail(User, 1)
-
-    // собираю в чат (если чат не создался, например потому что НеДрузья, то сохранение в БД дальше не произойдет)
-    const chat = await meetWitness(user)
-    if (!user.witnessChat?.id) {
-      user.witnessChat = chat
-    }
-
-    // сохраняю
+    // сохраняю переданные данные (пока без чата заверения)
     await em.save(user)
+
+    // собираю в чат асинхронно, чтобы пользователю не вернулся таймаут пока ждет одобрение дружбы со Святославом
+    meetWitness(user)
+      // отдельно сохраняю чат
+      .then(async chat => {
+        if (!user.witnessChat?.id) {
+          user.witnessChat = chat
+          await em.update(User, user.id, {witnessChat: user.witnessChat})
+        }
+      })
 
     res.json(response({
       witness_id: user.witness.id,

@@ -17,7 +17,12 @@
     "env:test": "cp .env.test .env",
     "env:development": "cp .env.development .env",
     "modules:build": "docker build --pull --no-cache -t kopnikorg/kopnik-modules:latest -f .docker/modules/Dockerfile .",
-    "modules:push": "docker push kopnikorg/kopnik-modules:latest"
+    "modules:push": "docker push kopnikorg/kopnik-modules:latest",
+    "docker:build": "docker build --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/",
+    "docker:push": "docker push kopnikorg/kopnik-node:latest",
+    "docker-compose:up": "docker-compose up",
+    "docker-compose:up:db": "docker-compose up db",
+    "ssh:db":"ssh -f -N -R 5435:localhost:5435 someuser@staging.kopnik.org"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",

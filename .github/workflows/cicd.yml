@@ -52,11 +52,8 @@ jobs:
         with:
           command: |
             cd ${{ secrets.SSH_PATH }}
-            cp default.env .env
-            sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
-            sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
             git pull
-            docker-compose down --remove-orphans
+            docker-compose down --remove-orphans --volumes
             docker-compose pull --quiet
             docker-compose up -d
           host: staging.kopnik.org
