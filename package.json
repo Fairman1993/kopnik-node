@@ -40,6 +40,7 @@
     "body-parser": "^1.18.1",
     "bunyan": "^1.8.14",
     "bunyan-logstash-tcp": "^1.0.0",
+    "client-oauth2": "^4.3.3",
     "cors": "^2.8.5",
     "cross-fetch": "^3.0.6",
     "date-fns": "^2.15.0",
