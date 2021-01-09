@@ -13,6 +13,6 @@ export default async function (halfSubordinate: User, halfForeman: User, status:
   }
 
   await sendToDirect(halfSubordinate, {
-    message: status ? `$t ${halfSubordinate.firstName}, ${halfSubordinate.foremanRequest.firstName} согласился быть твоим старшиной. Во благо! Сейчас я добавлю тебя в чат десятки, где он старшина.` : `$t ${halfSubordinate.firstName}, твоё предложение отклонено`
+    message: status ? `$t ${halfSubordinate.firstName}, ${halfForeman.firstName} согласился быть твоим старшиной. Во благо! Сейчас я добавлю тебя в чат десятки, где он старшина.` : `$t ${halfSubordinate.firstName}, ${halfForeman.firstName} отклонил твоё предложение быть старшиной. Не отчаивайся, это не всегда плохо. Найди другого старшину, который тебе близок по духу.`
   })
 }

@@ -12,7 +12,7 @@ import getContext from "@/context/getContext";
 import transaction from "@/transaction/transaction";
 import meetForeman from "@/vk/meetForeman";
 import meetSubordinate from "@/vk/meetSubordinate";
-import informHalfSubordinateHalfForman from "@/vk/informHalfSubordinateHalfForman";
+import informHalfSubordinate from "@/vk/informHalfSubordinate";
 
 /**
  *
@@ -43,16 +43,14 @@ async function resolveForemanRequest(req: Request, res: Response) {
         await em.save(user) // save tenChat
       }
 
-      await setUserForeman(halfSubordinate, user, em) // also saves foremanRequestChat = foremanRequest = null
+      await setUserForeman(halfSubordinate, user, em) // also saves foremanRequest = null
       await meetSubordinate(halfSubordinate)
     }
 
     // это после приглашения в чат, чтобы в списке чатов ВК был сверху (по логическому порядку прочтения)
-    await informHalfSubordinateHalfForman(halfSubordinate, status)
+    await informHalfSubordinate(halfSubordinate, halfSubordinate.foremanRequest, status)
 
     halfSubordinate.foremanRequest = null
-    halfSubordinate.foremanRequestChat.id= null
-    halfSubordinate.foremanRequestChat.inviteLink= null
     await em.save(halfSubordinate)
 
     res.json(response(true))
