@@ -14,7 +14,7 @@ describe('meetWitness', () => {
   })
 
   it('success to new chat', async () => {
-    const result = await meetWitness(testUser({witness_id: VK_TEST_USER}))
+    const result = await meetWitness(testUser({witness_id: VK_TEST_USER}), testUser())
     expect(result).toBeInstanceOf(Chat)
   })
 })
