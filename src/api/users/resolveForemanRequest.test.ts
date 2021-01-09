@@ -32,8 +32,6 @@ describe('resolveForemanRequest', () => {
       relations:['foremanRequest']
     })
     expect(subordinate.foremanRequest).toBeNull()
-    expect(subordinate.foremanRequestChat.id).toBeNull()
-    expect(subordinate.foremanRequestChat.inviteLink).toBeNull()
   })
 })
 

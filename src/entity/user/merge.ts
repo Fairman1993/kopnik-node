@@ -37,9 +37,6 @@ export default function (user: User, data: DeepPartial<User> & { [key: string]: 
   if (data.witnessChat) {
     user.witnessChat = data.witnessChat as Chat
   }
-  if (data.foremanRequestChat) {
-    user.foremanRequestChat = data.foremanRequestChat as Chat
-  }
 
   if (data.tenChat) {
     user.tenChat = data.tenChat as Chat

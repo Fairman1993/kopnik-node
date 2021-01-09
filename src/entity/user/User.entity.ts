@@ -91,8 +91,7 @@ export class User {
   @Column({default: false})
   isWitness: boolean
 
-  @Column(type => Chat, )
-  foremanRequestChat: Chat
+
 
   @Column(type => Chat, )
   witnessChat: Chat

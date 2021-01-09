@@ -24,7 +24,6 @@ export default function (user: User, options: { isCurrentUser?: boolean, isForem
     witnessRequests: user.witnessRequests?.map(eachWitnessRequest => eachWitnessRequest.id),
 
     witnessChatInviteLink: user.witnessChat?.inviteLink,
-    foremanRequestChatInviteLink: user.foremanRequestChat?.inviteLink,
     tenChatInviteLink: user.tenChat?.inviteLink,
     mid: user.mid,
   }
@@ -39,7 +38,6 @@ export default function (user: User, options: { isCurrentUser?: boolean, isForem
   // foremanRequest
   if (!options.isCurrentUser && !options.isSubordinateRequest) {
     delete result.foremanRequest_id
-    delete result.foremanRequestChatInviteLink
   }
   // foremanRequests
   if (!options.isCurrentUser) {

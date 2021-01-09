@@ -11,7 +11,7 @@ import transaction from "@/transaction/transaction";
 import getContext from "@/context/getContext";
 import setUserForeman from "@entity/user/setUserForeman";
 import informHalfForemanBad from "@/vk/informHalfForemanBad";
-import meetHalfForeman from "@/vk/meetHalfSubordinateHalfForeman";
+import informHalfForeman from "@/vk/informHalfForeman";
 import kickSubordinate from "@/vk/kickSubordinate";
 
 
@@ -28,8 +28,8 @@ export default async function (req: Request, res: Response) {
 
     // tree-cycle
     if (halfForeman) {
-      const halfForemanForemans= await em.getTreeRepository(User).findAncestors(halfForeman)
-      if (halfForemanForemans.find(f=>f.id==user.id)){
+      const halfForemanForemans = await em.getTreeRepository(User).findAncestors(halfForeman)
+      if (halfForemanForemans.find(f => f.id == user.id)) {
         throw new KError('Foreman cycle', 1)
       }
     }
@@ -41,9 +41,9 @@ export default async function (req: Request, res: Response) {
       await setUserForeman(user, null)
     }
 
-    // reset foreman request
+    // inform current foreman request
     if (user.foremanRequest) {
-      await informHalfForemanBad(user)
+      await informHalfForemanBad(user.foremanRequest, user)
     }
 
     if (id) {
@@ -53,7 +53,7 @@ export default async function (req: Request, res: Response) {
       user.foremanRequest = halfForeman
 
       // свожу в чате полу-младшего и полу-старшего
-      user.foremanRequestChat = await meetHalfForeman(user)
+      await informHalfForeman(user, halfForeman)
     } else {
       user.foremanRequest = null
     }

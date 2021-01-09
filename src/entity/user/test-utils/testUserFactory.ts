@@ -14,9 +14,6 @@ export default function (prefix: string = new Date().toString(), fields: Partial
 
   const result = new User()
 
-  if (fields.foremanRequest_id) {
-    result.foremanRequestChat = new Chat(new Date().getTime(), 'https://foremanRequestChat')
-  }
   if (fields.witness_id) {
     result.witnessChat = new Chat(new Date().getTime(), 'https://witnessChat')
   }
