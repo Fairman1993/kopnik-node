@@ -21,7 +21,7 @@ import getWitnessRequests from "@api/users/getWitnessRequests";
 import getTopInsideSquare from "@api/users/getTopInsideSquare";
 import update from "@api/users/update";
 import updateLocale from "@api/users/updateLocale";
-import updateWitnessRequest from "@api/users/resolveWitnessRequest";
+import resolveWitnessRequest from "@api/users/resolveWitnessRequest";
 import isMessagesFromGroupAllowed from "@api/users/isMessagesFromGroupAllowed";
 import putForemanRequest from "@api/users/putForemanRequest";
 import getForemanRequests from "@api/users/getForemanRequests";
@@ -53,7 +53,7 @@ app.get('/api/users/getWitnessRequests', authorize(), getWitnessRequests)
 app.get('/api/users/getTopInsideSquare', authorize(), getTopInsideSquare)
 app.post('/api/users/updateProfile', authorize(), update)
 app.post('/api/users/updateLocale', authorize(), updateLocale)
-app.post('/api/users/updateWitnessRequest', authorize(), updateWitnessRequest)
+app.post('/api/users/resolveWitnessRequest', authorize(), resolveWitnessRequest)
 app.get('/api/users/isMessagesFromGroupAllowed', authorize(), isMessagesFromGroupAllowed)
 app.post('/api/users/inviteKopa', authorize({
   statuses: [StatusEnum.Confirmed],

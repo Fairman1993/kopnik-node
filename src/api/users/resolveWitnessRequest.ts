@@ -33,7 +33,7 @@ export default async function (req: Request, res: Response) {
     }
 
     halfUser.status = status
-    await informHalfUser(halfUser)
+    await informHalfUser(halfUser, halfUser.witness)
     await getRepository(User).save(halfUser)
   })
 

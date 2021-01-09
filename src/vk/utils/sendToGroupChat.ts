@@ -8,6 +8,6 @@ import Chat from "@entity/Chat.entity";
  */
 // doc: https://vk.com/dev/messages.createChat
 // https://vk.com/dev/messages.send
-export default async function (chat: Chat, message: MessagesSendParams): Promise<void> {
-  await _send(chat.id+ 2000000000, message)
+export default async function (chat: Chat, params: MessagesSendParams): Promise<void> {
+  await _send(chat.id+ 2000000000, params)
 }

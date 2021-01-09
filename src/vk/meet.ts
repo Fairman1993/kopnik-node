@@ -9,8 +9,9 @@ import konaz from "@entity/user/konaz";
 
 /**
  * Приглашает пользователей и Святослава в чат и пишет вводные сообщения
- * Если чата нет, создает его и возвращает в качестве результата своего выполения
+ * Если чата нет, создает его и возвращает
  *
+ * @return новый чат
  */
 export default async function (title: string, users: User[], options: { messages?: MessagesSendParams[], chat?: Chat } = {}): Promise<Chat> {
   const vk = container.vk
