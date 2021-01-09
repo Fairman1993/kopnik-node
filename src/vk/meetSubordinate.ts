@@ -4,13 +4,14 @@ import {basename} from "path";
 import friends from "@/vk/utils/friends";
 import addChatUser from "@/vk/utils/addChatUser";
 import sendToGroupChat from "@/vk/utils/sendToGroupChat";
+import join from "@/vk/utils/join";
 
 /**
  * Встреча с новоявленным младшим десятки
  */
 export default async function (subordinate: User): Promise<void> {
   const logger = container.createLogger({name: basename(__filename),})
-  const foreman= subordinate.foreman
+  const foreman = subordinate.foreman
 
   // ожидаю когда можно будет пригласить заверяемого
   await friends([subordinate], {wait: true}, async () => {
@@ -19,7 +20,13 @@ export default async function (subordinate: User): Promise<void> {
     await addChatUser(foreman.tenChat, subordinate)
 
     // объясняю что к чему
-    await sendToGroupChat(foreman.tenChat, {message: `$t Поприветствуйте нового друга! Его зовут ${subordinate.firstName}`})
-    await sendToGroupChat(foreman.tenChat, {message: `$t ${subordinate.firstName}, это чат твоей новой десятки. Старшина десятки ${subordinate.foreman.firstName}`})
+    await sendToGroupChat(foreman.tenChat, {
+      data: {
+        message: join([
+          `$t Поприветствуйте нового друга! Его зовут ${subordinate.firstName}`,
+          `$t ${subordinate.firstName}, это чат твоей новой десятки. Старшина десятки ${subordinate.foreman.firstName}`
+        ])
+      }
+    })
   })
 }

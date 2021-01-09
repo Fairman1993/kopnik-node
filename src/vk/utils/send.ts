@@ -10,16 +10,16 @@ import plain from "@entity/user/plain";
  */
 // doc: https://vk.com/dev/messages.createChat
 // https://vk.com/dev/messages.send
-export default async function (chatId: number, params: MessagesSendParams): Promise<void> {
+export default async function (peer_id: number, params: MessagesSendParams): Promise<void> {
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
 
   logger.info({
-    chatId
-  }, `${chatId}: ${params.message}`)
+    chatId: peer_id
+  }, `${peer_id}: ${params.message}`)
 
   await vk.api.messages.send({
-    peer_id: chatId,
+    peer_id,
     random_id: _.random(1000000),
     ...params
   })

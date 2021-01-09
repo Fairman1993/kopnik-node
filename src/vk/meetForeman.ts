@@ -1,13 +1,12 @@
 import {User} from "@entity/user/User.entity";
 import container from "@/di/container";
-import FriendStatusEnum from "@/di/vk-io/FriendStatusEnum";
 import {basename} from "path";
 import meet from "@/vk/meet";
 import Chat from "@entity/Chat.entity";
-import KError from "@/error/KError";
 import friends from "@/vk/utils/friends";
+import join from "@/vk/utils/join";
 
-export default async function (foreman: User, ): Promise<Chat> {
+export default async function (foreman: User,): Promise<Chat> {
   const logger = container.createLogger({name: basename(__filename),})
   let result: Chat
 
@@ -16,12 +15,17 @@ export default async function (foreman: User, ): Promise<Chat> {
 
     // встречаюсь со старшиной
     result = await meet(`10-ка ${foreman.firstName}`,
-      [foreman, ],
+      [foreman,],
       {
         chat: foreman.tenChat,
-        messages: [{message: `$t ${foreman.firstName}! Настал новый этап в твоей жизни, теперь ты - старшина. Быть старшиной значит, что тебе доверяют представление своих интересов и интересов своей семьи другие копные мужи. Это временная должность, тот кто выбрал, может и снять тебя. Относись к своим новым обязанностям добросовестно!`},
-          {message:`Я создал для общения в десятке это чат. Я сам буду приглашать в него всех, кто так же выберет тебя старшиной и буду исключать из него всех, кто передумает. Так тебе и твоим друзьям будет удобнее общаться только между собой в близком кругу.`},
-          {message: `$t А сейчас встречай первого друга`}],
+        data: {
+          message: join([
+            `$t ${foreman.firstName}! Настал новый этап в твоей жизни, теперь ты - старшина!`,
+            `Быть старшиной значит, что другие копные мужи возлагают на тебя представление интересов семей. Помни, что это временная должность: тот кто тебя выбрал, волен тебя и снять. Относись к своим новым обязанностям ответственно и добросовестно!`,
+            `Я создал этот новый чат для общения твоей десятки. Я сам буду приглашать в него тех, кто выберет тебя старшиной и буду исключать из него тех, кто передумает. Так тебе и твоим друзьям будет удобно использовать его как место для общения самым близким и доверенным кругом друзей.`,
+            `$t А сейчас встречай первого друга`,
+          ]),
+        }
       })
   })
 

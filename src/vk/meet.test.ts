@@ -16,12 +16,12 @@ describe('meet', () => {
   })
 
   it('success to new chat', async () => {
-    const result = await meet(basename(__filename), [testUser()], {messages: [{message: 'hello!'}]})
+    const result = await meet(basename(__filename), [testUser()], {data: {message: 'hello!'}})
     expect(result).toBeInstanceOf(Chat)
   })
   it('success to old chat', async () => {
     const chat = await createChat(basename(__filename), [testUser()])
-    const result = await meet(basename(__filename), [testUser()], {chat, messages: [{message: 'hello!'}]})
+    const result = await meet(basename(__filename), [testUser()], {chat, data: {message: 'hello!'}})
     expect(result).toBeUndefined()
   })
 

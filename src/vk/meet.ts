@@ -13,7 +13,7 @@ import konaz from "@entity/user/konaz";
  *
  * @return новый чат
  */
-export default async function (title: string, users: User[], options: { messages?: MessagesSendParams[], chat?: Chat } = {}): Promise<Chat> {
+export default async function (title: string, users: User[], options: { data?: MessagesSendParams, chat?: Chat } = {}): Promise<Chat> {
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
 
@@ -26,8 +26,8 @@ export default async function (title: string, users: User[], options: { messages
   }
 
   // вводные сообщения
-  for (let eachMessage of options.messages || []) {
-    await sendToGroupChat(result || options.chat, eachMessage)
+  if (options.data) {
+    await sendToGroupChat(result || options.chat, options.data)
   }
 
   return result
