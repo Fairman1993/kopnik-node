@@ -3,6 +3,9 @@ import {VK} from "vk-io";
 import TYPES from "@/di/TYPES";
 import _ from 'lodash'
 import {basename} from "path";
+import {User} from "@entity/user/User.entity";
+import link from "@/vk/utils/link";
+import testUser from "@entity/user/test-utils/testUser";
 
 describe('vk', () => {
   let vk: VK,
@@ -17,7 +20,7 @@ describe('vk', () => {
   it('messages.send', async () => {
     const result = await vk.api.messages.send({
       peer_id: parseInt(process.env.VK_TEST_USER),
-      message: 'vk-io https://kopnik.org',
+      message: `vk-io https://kopnik.org   ${link(testUser())}`,
       random_id: _.random(1000000)
     })
     expect(result).toBeTruthy()

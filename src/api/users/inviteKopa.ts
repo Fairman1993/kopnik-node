@@ -12,7 +12,7 @@ import getContext from "@/context/getContext";
 import transaction from "@/transaction/transaction";
 import meetForeman from "@/vk/meetForeman";
 import meetSubordinate from "@/vk/meetSubordinate";
-import informHalfSubordinate from "@/vk/informHalfSubordinate";
+import informHalfSubordinate from "@/vk/informHalfSubordinateBad";
 import RoleEnum from "@entity/user/RoleEnum";
 import meetKopa from "@/vk/meetKopa";
 

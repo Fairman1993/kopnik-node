@@ -8,7 +8,7 @@ import {User} from "@entity/user/User.entity";
 import response from "@api/response";
 import merge from "@entity/user/merge";
 import StatusEnum from "@entity/user/StatusEnum";
-import meetWitness from "@/vk/meetWitness";
+import meetHalfUserWitness from "@/vk/meetHalfUserWitness";
 import getContext from "@/context/getContext";
 import transaction from "@/transaction/transaction";
 
@@ -40,7 +40,7 @@ export default async function (req: Request, res: Response) {
     await em.save(user)
 
     // собираю в чат асинхронно, чтобы пользователю не вернулся таймаут пока ждет одобрение дружбы со Святославом
-    meetWitness(user)
+    meetHalfUserWitness(user, user.witness)
       // отдельно сохраняю чат
       .then(async chat => {
         if (!user.witnessChat?.id) {

@@ -1,6 +1,6 @@
 import container from "@/di/container"
 import {VK} from "vk-io";
-import meetWitness from "@/vk/meetWitness";
+import meetWitness from "@/vk/meetHalfUserWitness";
 import testUser from "@entity/user/test-utils/testUser";
 import Chat from "@entity/Chat.entity";
 

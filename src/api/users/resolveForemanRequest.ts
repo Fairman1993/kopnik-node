@@ -12,7 +12,7 @@ import getContext from "@/context/getContext";
 import transaction from "@/transaction/transaction";
 import meetForeman from "@/vk/meetForeman";
 import meetSubordinate from "@/vk/meetSubordinate";
-import informHalfSubordinate from "@/vk/informHalfSubordinate";
+import informHalfSubordinateBad from "@/vk/informHalfSubordinateBad";
 
 /**
  *
@@ -32,6 +32,8 @@ async function resolveForemanRequest(req: Request, res: Response) {
       throw new KError('Invalid Subordinate Request', 1511)
     }
 
+    halfSubordinate.foremanRequest = null
+
     /**
      * порядок вызовов очень важен.
      * Не присваивать halfSubordinate.foreman в обход setUserForeman(). это сломает ее
@@ -44,14 +46,12 @@ async function resolveForemanRequest(req: Request, res: Response) {
       }
 
       await setUserForeman(halfSubordinate, user, em) // also saves foremanRequest = null
-      await meetSubordinate(halfSubordinate)
+      await meetSubordinate(halfSubordinate, user)
     }
-
-    // это после приглашения в чат, чтобы в списке чатов ВК был сверху (по логическому порядку прочтения)
-    await informHalfSubordinate(halfSubordinate, halfSubordinate.foremanRequest, status)
-
-    halfSubordinate.foremanRequest = null
-    await em.save(halfSubordinate)
+    else {
+      // это после приглашения в чат, чтобы в списке чатов ВК был сверху (по логическому порядку прочтения)
+      await informHalfSubordinateBad(halfSubordinate, user)
+    }
 
     res.json(response(true))
   })

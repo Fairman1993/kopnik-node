@@ -5,6 +5,8 @@ import meet from "@/vk/meet";
 import Chat from "@entity/Chat.entity";
 import friends from "@/vk/utils/friends";
 import join from "@/vk/utils/join";
+import link from "@/vk/utils/link";
+import LinkMode from "@/vk/utils/LinkMode";
 
 export default async function (subject: string, participants: User[],): Promise<Chat> {
   const vk = container.vk
@@ -17,12 +19,12 @@ export default async function (subject: string, participants: User[],): Promise<
     result = await meet(`Копа: ` + subject, participants, {
       data: {
         message: join([
-          `$t Здравия браты! Единства и благополучия всему славянскому роду!`,
-          `$t Вас созвал на копу наш брат ${participants[0].iof}`,
-          `$t Тема обсуждения: ${subject}`,
-          `$t Выберите меж собой кашевого (модератор копы) только единогласным решением и передайте ему право вести эту копу.`,
-          `$t Во всё время проведения копы ставьте интересы рода выше своего эга, а кто не устоит, того кашевой с копы да прогонит.`,
-          `$t Описание порядка копы........`
+          `$t Здравия братцы. Единства и благополучия всему славянскому роду!`,
+          `Вас всех созвал на копу наш брат ${link(participants[0], LinkMode.iof)}`,
+          `Повод для обсуждения: ${subject}`,
+          `Выберите меж собой кашевого (модератора копы) только единогласным решением и передайте ему право вести эту копу.`,
+          `Во всё время проведения копы ставьте интересы рода выше личного эга, а кто не устоит, того кашевой с копы пусть прогонит.`,
+          `Описание порядка копы........`
         ])
       },
     })

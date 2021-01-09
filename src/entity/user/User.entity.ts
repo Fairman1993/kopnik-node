@@ -109,6 +109,14 @@ export class User {
     return `${this.firstName} ${this.patronymic} ${this.lastName}`
   }
 
+  get if() {
+    return `${this.firstName} ${this.lastName}`
+  }
+
+  get io() {
+    return `${this.firstName} ${this.patronymic}`
+  }
+
   constructor(init?: number | DeepPartial<User>) {
     if (typeof init === 'number') {
       this.id = init
