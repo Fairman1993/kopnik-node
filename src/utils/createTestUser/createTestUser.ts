@@ -1,6 +1,6 @@
 import httpContext from 'express-cls-hooked'
 import context from "@/context/context";
-import newUser from "@api/middleware/newUser";
+import newUser from "@api/middleware/newUser_need_remove";
 import container from "@/di/container";
 import getContext from "@/context/getContext";
 import StatusEnum from "@entity/user/StatusEnum";

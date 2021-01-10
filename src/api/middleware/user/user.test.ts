@@ -2,18 +2,17 @@ import request from "supertest";
 import {Base64} from 'js-base64';
 
 import app from "@/app";
-import IToken from "@api/middleware/authenticate/IToken";
-import sig from "@api/middleware/authenticate/sig";
 import {EntityManager, getManager,} from "typeorm";
 import {User} from "@entity/user/User.entity";
 import createUser from "@entity/user/test-utils/createTestUser";
 import container from "@/di/container";
+import callback from "@api/middleware/passport/callback";
 
 
 describe('authenticate', () => {
   const VK_TEST_USER = parseInt(process.env.VK_TEST_USER)
 
-  beforeAll(async ()=>{
+  beforeAll(async () => {
     await container.provideDatabase()
   })
 
@@ -31,26 +30,30 @@ describe('authenticate', () => {
     await getManager().delete(User, {
       mid: parseInt(process.env.VK_TEST_USER),
     })
+    const fakeProfile= {
+      "id": 261824271,
+      "username": "alexey2baranov",
+      "displayName": "Алексей Баранов",
+      "name": {
+        "familyName": "Баранов",
+        "givenName": "Алексей"
+      },
+      "gender": "male",
+      "profileUrl": "http://vk.com/alexey2baranov",
+      "photos": [
+        {
+          "value": "https://sun1-24.userapi.com/impf/c639321/v639321874/53f59/Td_OIljPT0w.jpg?size=200x0&quality=96&crop=126,1,827,827&sign=9ce8bd25dff8061a698f4526cefb8e5f&c_uniq_tag=Ha0-rwjPcYBX_YDI6xVoYss0W28PtkNQEYI5kOgdrHE&ava=1",
+          "type": "photo_200"
+        }
+      ],
 
-    // делаем токен
-    const token: IToken = {
-      expire: new Date().getTime(),
-      mid: VK_TEST_USER,
-      secret: "OAuth",
-      sid: '1234',
-      sig: undefined
     }
-    token.sig = sig(token)
-
-    // пробуем прорваться
-    const res = await request(app)
-      .get('/api/test/ping')
-      .set({'Authorization': Base64.encode(JSON.stringify(token))})
-      .send()
-    expect(res.status).toEqual(200)
+    await callback('accessToken', 'refreshToken', [], fakeProfile, (e, user) => {
+      expect(user.id).toBeTruthy()
+    })
   })
 
-  it('existed user', async () => {
+  it.only('existed user', async () => {
     // удаляем на всякий случай пользователя
     await getManager().query(`truncate users_closure`)
     await getManager().delete(User, {
@@ -61,20 +64,10 @@ describe('authenticate', () => {
       mid: VK_TEST_USER,
     })
 
-    // делаем ему токен
-    const token: IToken = {
-      expire: new Date().getTime(),
-      mid: VK_TEST_USER,
-      secret: "OAuth",
-      sid: '1234',
-      sig: undefined
-    }
-    token.sig = sig(token)
-
     // пробуем прорваться
     const res = await request(app)
       .get('/api/test/ping')
-      .set({'Authorization': Base64.encode(JSON.stringify(token))})
+      .set({'T-Authorization':(VK_TEST_USER.toString())})
       .send()
     expect(res.status).toEqual(200)
   })

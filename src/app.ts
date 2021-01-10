@@ -4,14 +4,20 @@ import 'express-async-errors'
 import bodyParser from "body-parser";
 import httpContext from 'express-cls-hooked'
 import cors from 'cors'
+import passport from 'passport'
+import {Strategy as VKontakteStrategy} from 'passport-vk-strategy'
+import cookieParser from 'cookie-parser'
+// import expressSession from 'express-session'
+import cookieSession from 'cookie-session'
+
 
 import welcome from "@/api/middleware/welcome"
 import ping from "@api/test/ping";
 import error from "@api/test/error";
-import authenticate from "@api/middleware/authenticate/authenticate";
-import create from "@api/middleware/newUser";
+import user from "@api/middleware/user/user";
+import create from "@api/middleware/newUser_need_remove";
 import get from "@api/users/get";
-import login from "@api/test/login";
+import login from "@api/test/login_need_remove";
 import on_createUser from "@api/test/on_createUser";
 import on_authorize from "@api/test/on_authorize";
 import db from "@api/middleware/db";
@@ -31,20 +37,67 @@ import getSubordinates from "@api/users/getSubordinates";
 import getForeman from "@api/users/getForeman";
 import StatusEnum from "@entity/user/StatusEnum";
 import RoleEnum from "@entity/user/RoleEnum";
-import {Transaction} from "typeorm";
+import {getManager, Transaction} from "typeorm";
 import inviteKopa from "@api/users/inviteKopa";
+import container from "@/di/container";
+import {User} from "@entity/user/User.entity";
+import callback from "@api/middleware/passport/callback";
+import logout from "@api/users/logout";
 
 const app = express()
 app.use(cors({
   origin: ['http://localhost:8080', 'https://localhost:8080', 'https://staging.kopnik.org', 'https://kopnik.org',],
   credentials: true,
 }))
+
+
+app.use(cookieParser())
 app.use(bodyParser.json())
+// app.use(expressSession({secret: 'keyboard cat', resave: true, saveUninitialized: true}));
+app.use(cookieSession({
+  name: 'sessionId',
+  secret: process.env.VK_SVETOSLAV_TOKEN,
+
+  // Cookie Options
+  maxAge: 7 * 24 * 60 * 60e3 * 1000,
+  sameSite: false,
+  secure: false,
+  httpOnly: true,
+}))
+
+// vk auth
+const pass = passport
+app.use(pass.initialize());
+app.use(pass.session());
+// https://vk.com/editapp?id=7210289&section=options
+pass.use(new VKontakteStrategy({
+    clientID: process.env.VK_CLIENT_ID, // VK.com docs call it 'API ID', 'app_id', 'api_id', 'client_id' or 'apiId'
+    clientSecret: process.env.VK_CLIENT_SECRET,
+    callbackURL: container.constants.auth.callbackURL,
+    lang: 'ru',
+    apiVersion: '5.126'
+  },
+  callback
+))
+passport.serializeUser(function (data, done) {
+  done(null, data)
+})
+passport.deserializeUser(function (data, done) {
+  done(null, data)
+})
+app.get('/auth/vkontakte', pass.authenticate('vkontakte'));
+app.get('/auth/vkontakte/callback',
+  pass.authenticate('vkontakte', {
+    successRedirect: container.constants.auth.successRedirect,
+    failureRedirect: container.constants.auth.failureRedirect,
+  })
+)
+
+// middleware after auth
 app.use(httpContext.middleware)
 app.use(db)
+app.use(user)
 app.use(welcome)
-app.use(authenticate)
-app.use(create)
 
 // users
 app.get('/api/users/get', authorize(), get)
@@ -59,6 +112,7 @@ app.post('/api/users/inviteKopa', authorize({
   statuses: [StatusEnum.Confirmed],
   roles: [RoleEnum.Kopnik, RoleEnum.DanilovKopnik,]
 }), inviteKopa)
+app.get('/api/users/logout', authorize(), logout)
 
 // tree
 app.post('/api/users/putForemanRequest', authorize({

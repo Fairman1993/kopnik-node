@@ -1,14 +1,10 @@
 import {Request, Response} from "express";
-import {Base64} from 'js-base64';
 
 import container from "@/di/container";
 import {basename} from "path";
 import context from "@/context/context";
 import {User} from "@entity/user/User.entity";
 import {getManager,} from "typeorm";
-import parse from 'date-fns/parse'
-import IToken from "@api/middleware/authenticate/IToken";
-import sig from "@api/middleware/authenticate/sig";
 import getContext from "@/context/getContext";
 
 /**
@@ -45,7 +41,7 @@ export default async function (req: Request, res: Response, next: Function) {
       await em.save(user)
     }
     context.set('user', user)
-    logger.debug(`${user.mid} -> ${user.id} : ${user.firstName} ${user.patronymic} ${user.lastName}`)
+    // logger.debug(`${user.mid} -> ${user.id} : ${user.firstName} ${user.patronymic} ${user.lastName}`)
   }
   next()
 }

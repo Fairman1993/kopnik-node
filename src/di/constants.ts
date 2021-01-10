@@ -1,4 +1,9 @@
 export interface IConstants {
+  auth:{
+    callbackURL:string,
+    successRedirect: string,
+    failureRedirect: string,
+  },
   db: {
     logging?: boolean,
     synchronize?: boolean,
@@ -12,6 +17,11 @@ export interface IConstants {
 
 const constants = {
   development: {
+    auth:{
+      callbackURL: 'https://localhost:8081/auth/vkontakte/callback',
+      successRedirect: 'http://localhost:8080',
+      failureRedirect: 'http://localhost:8080/thanks'
+    },
     db: {
       "synchronize": false,
       "logging": true,
@@ -22,6 +32,11 @@ const constants = {
     }
   },
   test: {
+    auth:{
+      callbackURL: 'https://localhost:8081/auth/vkontakte/callback',
+      successRedirect: 'http://localhost:8080',
+      failureRedirect: 'http://localhost:8080/thanks'
+    },
     db: {
       "synchronize": false,
       "logging": true,
@@ -32,6 +47,11 @@ const constants = {
     }
   },
   production: {
+    auth:{
+      callbackURL: 'https://staging.kopnik.org/auth/vkontakte/callback',
+      successRedirect: 'https://staging.kopnik.org',
+      failureRedirect: 'https://staging.kopnik.org'
+    },
     db: {
       "synchronize": false,
       "logging": true,

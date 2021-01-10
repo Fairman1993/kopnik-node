@@ -5,6 +5,5 @@ export default function () {
     user: context.user,
     em: context.em,
     req_id: context.req_id,
-    token: context.token,
   }
 }
