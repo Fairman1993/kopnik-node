@@ -35,7 +35,7 @@ export default async function (req: Request, res: Response, next: Function) {
       passport: '',
       latitude: 0,
       longitude: 0,
-      birthYear: 19, //bdate?.getFullYear() || 19,
+      birthYear: null, //bdate?.getFullYear() || 19,
       domain: vkUser.domain,
       mid: vkUser.id,
     })

@@ -53,7 +53,7 @@ export class User {
   @Column({enum: StatusEnum, default: StatusEnum.New})
   status: StatusEnum
 
-  @Column({enum: RoleEnum, name: 'role', default: RoleEnum.Stranger})
+  @Column({enum: RoleEnum, name: 'role', nullable: true,})
   role: RoleEnum
 
   @Column({})
@@ -62,7 +62,7 @@ export class User {
   @Column({})
   lastName: string
 
-  @Column({})
+  @Column({nullable: true,})
   patronymic: string
 
   @Column({enum: LocaleEnum, default: LocaleEnum.ru})
@@ -74,7 +74,7 @@ export class User {
   @Column()
   photo: string
 
-  @Column()
+  @Column({nullable: true,})
   birthYear: number
 
   @Column()
@@ -92,11 +92,10 @@ export class User {
   isWitness: boolean
 
 
-
-  @Column(type => Chat, )
+  @Column(type => Chat,)
   witnessChat: Chat
 
-  @Column(type => Chat, )
+  @Column(type => Chat,)
   tenChat: Chat
 
   @CreateDateColumn()

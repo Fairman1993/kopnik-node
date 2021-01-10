@@ -49,6 +49,7 @@ async function resolveForemanRequest(req: Request, res: Response) {
       await meetSubordinate(halfSubordinate, user)
     }
     else {
+      await em.save(halfSubordinate) // saves foremanRequest = null
       // это после приглашения в чат, чтобы в списке чатов ВК был сверху (по логическому порядку прочтения)
       await informHalfSubordinateBad(halfSubordinate, user)
     }

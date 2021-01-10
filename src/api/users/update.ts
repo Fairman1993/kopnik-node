@@ -36,7 +36,7 @@ export default async function (req: Request, res: Response) {
       status: StatusEnum.Pending,
     })
     user.witness = await em.findOneOrFail(User, 1)
-    // сохраняю переданные данные (пока без чата заверения)
+    // сохраняю переданные данные (пока без чата заверения, который обновится асинхронно ниже)
     await em.save(user)
 
     // собираю в чат асинхронно, чтобы пользователю не вернулся таймаут пока ждет одобрение дружбы со Святославом
