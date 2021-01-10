@@ -56,6 +56,7 @@ jobs:
             docker-compose down --remove-orphans --volumes
             docker-compose pull --quiet
             docker-compose up -d
+            docker-compose exec -T node npm run typeorm:migration:run
           host: staging.kopnik.org
           username: someuser
           password: ${{ secrets.SSH_PASSWORD }}
