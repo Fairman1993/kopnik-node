@@ -14,7 +14,8 @@ import transaction from "@/transaction/transaction";
 
 
 /**
- *
+ * Обновляет профиль текущего пользователя.
+ * Не умеет обновлять что-то кроме профиля (например mid, чаты и тп)
  */
 export default async function (req: Request, res: Response) {
   await transaction(async () => {

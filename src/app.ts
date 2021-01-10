@@ -19,7 +19,7 @@ import authorize from "@api/middleware/authorize";
 import getEx from "@api/users/getEx";
 import getWitnessRequests from "@api/users/getWitnessRequests";
 import getTopInsideSquare from "@api/users/getTopInsideSquare";
-import update from "@api/users/update";
+import updateProfile from "@api/users/updateProfile";
 import updateLocale from "@api/users/updateLocale";
 import resolveWitnessRequest from "@api/users/resolveWitnessRequest";
 import isMessagesFromGroupAllowed from "@api/users/isMessagesFromGroupAllowed";
@@ -51,7 +51,7 @@ app.get('/api/users/get', authorize(), get)
 app.get('/api/users/getEx', authorize(), getEx)
 app.get('/api/users/getWitnessRequests', authorize(), getWitnessRequests)
 app.get('/api/users/getTopInsideSquare', authorize(), getTopInsideSquare)
-app.post('/api/users/updateProfile', authorize(), update)
+app.post('/api/users/updateProfile', authorize(), updateProfile)
 app.post('/api/users/updateLocale', authorize(), updateLocale)
 app.post('/api/users/resolveWitnessRequest', authorize(), resolveWitnessRequest)
 app.get('/api/users/isMessagesFromGroupAllowed', authorize(), isMessagesFromGroupAllowed)
