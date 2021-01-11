@@ -22,6 +22,7 @@ jobs:
       - run: cp default.env .env
       - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
       - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
+      - run: sed -i 's/COOKIE_SECRET=/VK_SVETOSLAV_TOKEN=1234/g' .env
 
       - run: docker-compose up -d db
       - run: npm i

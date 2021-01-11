@@ -56,7 +56,7 @@ app.use(bodyParser.json())
 // app.use(expressSession({secret: 'keyboard cat', resave: true, saveUninitialized: true}));
 app.use(cookieSession({
   name: 'sessionId',
-  secret: process.env.VK_SVETOSLAV_TOKEN,
+  secret: process.env.COOKIE_SECRET,
 
   // Cookie Options
   maxAge: 7 * 24 * 60 * 60e3 * 1000,
