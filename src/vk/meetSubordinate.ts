@@ -22,14 +22,12 @@ export default async function (subordinate: User, foreman: User): Promise<void> 
 
     // объясняю что к чему
     await sendToGroupChat(foreman.tenChat, {
-      data: {
-        message: join([
-          `$t Единства и благополучия сей доброй десятке и всему славянскому роду!`,
-          `${link(foreman,)} принял предложение быть старшиной.`,
-          `$t Поприветствуйте нового друга! Его зовут ${link(subordinate, LinkMode.iof)}`,
-          `${link(subordinate, LinkMode.i)}, это чат твоей новой десятки. Старшина десятки ${link(subordinate, )}`
-        ])
-      }
+      message: join([
+        `$t Единства и благополучия сей доброй десятке и всему славянскому роду!`,
+        `${link(foreman,)} принял предложение быть старшиной.`,
+        `$t Поприветствуйте нового друга! Его зовут ${link(subordinate, LinkMode.iof)}`,
+        `${link(subordinate, LinkMode.i)}, это чат твоей новой десятки. Старшина десятки ${link(subordinate,)}`
+      ])
     })
   })
 }

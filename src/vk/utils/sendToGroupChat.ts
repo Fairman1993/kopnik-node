@@ -9,7 +9,7 @@ import * as assert from "assert";
  */
 // doc: https://vk.com/dev/messages.createChat
 // https://vk.com/dev/messages.send
-export default async function (chat: Chat, params: MessagesSendParams): Promise<void> {
+export default async function (chat: Chat, data: MessagesSendParams): Promise<void> {
   assert.notEqual(chat.id, null)
-  await _send(chat.id+ 2000000000, params)
+  await _send(chat.id+ 2000000000, data)
 }

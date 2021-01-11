@@ -16,6 +16,7 @@
     "typeorm:migration:run": "node --require ts-node/register -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm/cli.js migration:run",
     "env:test": "cp .env.test .env",
     "env:development": "cp .env.development .env",
+    "env:production": "cp .env.production .env",
     "docker:modules:build": "docker build --pull --no-cache -t kopnikorg/kopnik-node-modules:latest -f .docker/modules/Dockerfile .",
     "docker:modules:push": "docker push kopnikorg/kopnik-node-modules:latest",
     "docker:build": "docker build --pull --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/",

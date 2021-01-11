@@ -18,6 +18,7 @@ export default class {
     }
     this.api.messages.send = async (params) => {
       assert.notEqual(params.peer_id, 2000000000, 'chat_id can\' be 2000000000')
+      assert.notEqual(params.message, null, `message can't be empty`)
       return 1
     }
 

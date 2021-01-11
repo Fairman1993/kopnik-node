@@ -9,6 +9,6 @@ import {User} from "@entity/user/User.entity";
  */
 // doc: https://vk.com/dev/messages.createChat
 // https://vk.com/dev/messages.send
-export default async function (user: User, message: MessagesSendParams): Promise<void> {
-  await _send(user.mid, message)
+export default async function (user: User, data: MessagesSendParams): Promise<void> {
+  await _send(user.mid, data)
 }
