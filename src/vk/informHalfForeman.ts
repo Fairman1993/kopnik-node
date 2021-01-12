@@ -23,12 +23,13 @@ export default async function (halfSubordinate: User, halfForeman: User): Promis
     throw new KError('Полустаршина не установлен', 1500)
   }
 
-  const message = join([
-    halfForeman.tenChat.id && halfForeman.rank > 1 ? `$t Единства и благополучия вашей доброй десятке и всему славянскому роду!` : `Здравия, ${link(halfForeman, LinkMode.i)}!`,
-    `${link(halfForeman, LinkMode.i)}, ${link(halfSubordinate, LinkMode.iof)} предлагает тебе стать его старшиной.`,
-    `Это значит, что ты возьмешь на себя ответственность представлять его семью на всех копах, на  которые тебя пригласят и на которых ты будешь участвовать как старшина общины.`,
-    `Посмотреть подробности и принять решение можно в разделе "Моя десятка" здесь ${container.constants.messaging.baseClientUrl}/ten`,
-  ])
+  const message =`
+  ${halfForeman.tenChat.id && halfForeman.rank > 1 ? `$t Здарова, десятка!` : `Здравия, ${link(halfForeman, LinkMode.i)}!`}
+  ${link(halfForeman, LinkMode.i)}, ${link(halfSubordinate, LinkMode.iof)} предлагает тебе стать его старшиной.
+  
+  Это значит, что ты возьмешь на себя ответственность представлять его семью на всех копах, на  которые ты будешь участвовать как старшина общины.
+  
+  Посмотреть подробности и принять решение можно в разделе "Моя десятка" здесь ${container.constants.messaging.baseClientUrl}/ten`
 
   // ожидаю когда можно будет создать чат и пригласить в него обоих
   await friends([halfForeman], {wait: true}, async () => {
