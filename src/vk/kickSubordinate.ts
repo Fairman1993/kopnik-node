@@ -5,6 +5,7 @@ import removeChatUser from "@/vk/utils/removeChatUser";
 import sendToGroupChat from "@/vk/utils/sendToGroupChat";
 import sendToDirect from "@/vk/utils/sendToDirect";
 import KError from "@/error/KError";
+import link from "@/vk/utils/link";
 
 /**
  * Исключаю подчиненного из чата десятки
@@ -16,19 +17,26 @@ export default async function (subordinate: User, kicker: User): Promise<void> {
 
   if (kicker===subordinate) {
     await sendToGroupChat(subordinate.foreman.tenChat, {
-      message: `Здравия всей доброй десятке! ${subordinate.firstName} принял решение выйти из десятки. Исключаю его из вашего чата.`
+      message: `
+      Здравия, братцы!
+      Сообщаю вам, что ${link(subordinate)} принял решение выйти из десятки. 
+
+      Исключаю его из вашего чата.
+      Во благо!`
     })
   }
   else{
     await sendToGroupChat(subordinate.foreman.tenChat, {
-      message: `Здравия всей доброй десятке! ${subordinate.foreman.firstName} исключил ${subordinate.firstName} из десятки. Исключаю его из вашего чата.`
-    })
-    await sendToDirect(subordinate, {
-      message: `Приветствую ${subordinate.firstName}!
-      Сообщаю тебе, что старшина исключил тебя из десятки. 
-      Я исключаю тебя из её чата. 
+      message: `
+      Здравия, братцы!
+      ${link(kicker)} исключил ${link(subordinate)} из десятки.
+      Исключаю его из вашего чата.
       
-      Не отчаивайся, это не всегда плохо. Если тебя исключили из десятки, найди другую, с которой тебе будет по пути.`
+      ${link(subordinate)}, не отчаивайся, это не всегда плохо.
+      Если тебя исключили из десятки, найди другую десятку, с которой тебе будет по пути.
+      
+      Как бы не было, мы - один народ, и наша задача во всеобщем объединении!
+      Во благо!`
     })
   }
 

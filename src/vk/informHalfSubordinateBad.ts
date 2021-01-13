@@ -11,10 +11,12 @@ import LinkMode from "@/vk/utils/LinkMode";
 export default async function (halfSubordinate: User, halfForeman: User): Promise<void> {
   await sendToDirect(halfSubordinate, {
     message:`
-    $t Здравия ${link(halfSubordinate, LinkMode.i)}! 
+    $t Здравия, ${link(halfSubordinate, LinkMode.i)}! 
     ${link(halfForeman)} отклонил твоё предложение быть старшиной. 
         
-    Не отчаивайся, это не всегда плохо. Выбери другого старшину, который тебе близок по духу. Исполни этот наказ обязательно как свой долг.
+    Не отчаивайся, это не всегда плохо.
+    Выбери другого старшину, который тебе близок по духу. 
+    Исполни этот наказ обязательно как свой долг.
     
     Во благо!`
   })

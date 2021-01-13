@@ -3,35 +3,49 @@ import split from "@/vk/utils/split";
 
 describe('split', () => {
   it('singleline', async () => {
-    const result = split(`qqq`)
+    const result = split(`qqq`,10)
     expect(result).toStrictEqual(['qqq'])
   })
 
-  it('trim', async () => {
+  it('multiline', async () => {
+    let q5 = 'q'.repeat(5)
+    let a4 = 'a'.repeat(4)
     const result = split(`
-    ййй
-    ффф
-    `)
-    expect(result).toStrictEqual(['ййй\nффф'])
+    ${q5}
+    ${a4}
+    `,10)
+    expect(result).toStrictEqual([`${q5}\n${a4}`])
   })
 
-  it('paragraph', async () => {
+  it('multiline signs', async () => {
+    let q5 = '$q q.'
+    let a4 = 'a$@#'
     const result = split(`
-    ййй
-    
-    яяя
-    `)
-    expect(result).toStrictEqual(['ййй\n\nяяя'])
+    ${q5}
+    ${a4}
+    `,10)
+    expect(result).toStrictEqual([`${q5}\n${a4}`])
   })
 
-  it('split', async () => {
+  it('multi paragraph', async () => {
+    let q5 = 'qqqqq'
+    let a5 = 'aaaaa'
+    const result = split(`${q5}
+    
+    ${a5}`,10)
+    expect(result).toStrictEqual([q5, a5])
+  })
+
+  it('multi paragraph with spaces', async () => {
+    let q5 = 'qqqqq'
+    let a5 = 'aaaaa'
     const result = split(`
-    ййй
+    ${q5}
     
-    
-    ццц
-    `)
-    expect(result).toStrictEqual(['ййй', 'ццц'])
+    \t
+    ${a5}
+    `,10)
+    expect(result).toStrictEqual([q5, a5])
   })
 })
 
