@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(staging.kopnik.org www.staging.kopnik.org)
+domains=(kopnik.org)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="alexey2baranov@gmail.com" # Adding a valid address is strongly recommended
