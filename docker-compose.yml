@@ -53,10 +53,6 @@ services:
 
   certbot:
     image: certbot/certbot
-
-
-
-
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
@@ -89,16 +85,19 @@ services:
     environment:
       - LOGSTASH_PWD=${ELASTIC_PASSWORD}
       - LOGSTASH_USER=${ELASTIC_USERNAME}
+      - LS_JAVA_OPTS=-Xmx256m -Xms256m
     volumes:
       - ./logs:/var/log/logs/
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     #      - ./logstash/templates:/usr/share/logstash/templates/
-    links:
-      - 'elasticsearch'
+#    links:
+#      - 'elasticsearch'
   #    ports:
   #      - '9600:9600'
   #      - '5044:5044'
+    depends_on:
+      - elasticsearch
 
   kibana:
     build:
@@ -110,12 +109,14 @@ services:
     environment:
       - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
       - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
-    links:
-      - 'elasticsearch'
+#    links:
+#      - 'elasticsearch'
     ports:
       - '5602:5601'
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
-
+    depends_on:
+      - elasticsearch
+       
 volumes:
   dist:
