@@ -36,8 +36,8 @@ container.bind<interfaces.Factory<Logger>>(TYPES.createLogger).toFactory((contex
 
     // в dev режиме сами отправляем логи в Логсташ
     switch (process.env.NODE_ENV) {
-      case 'development':
-        /*        (defaultOptions.streams as any).push({
+/*      case 'development':
+                (defaultOptions.streams as any).push({
                   level: 'debug',
                   type: "raw",
                   stream: bunyantcp.createStream({
@@ -45,8 +45,8 @@ container.bind<interfaces.Factory<Logger>>(TYPES.createLogger).toFactory((contex
                     // port: 9998,
                     port: 9995,
                   })
-                })*/
-        break
+                })
+        break*/
       case 'test':
         break
       case 'production':

@@ -11,5 +11,4 @@ temp/
 .env.*
 /var
 vksession
-data/nginx/app.conf
-data/
+/data/certbot
