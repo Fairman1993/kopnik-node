@@ -27,7 +27,7 @@ export default async function (halfSubordinate: User, halfForeman: User): Promis
   ${halfForeman.tenChat.id && halfForeman.rank > 1 ? `$t Здарова, десятка!` : `Здравия, ${link(halfForeman, LinkMode.i)}!`}
   ${link(halfForeman, LinkMode.i)}, ${link(halfSubordinate, LinkMode.iof)} предлагает тебе стать его старшиной.
   
-  Это значит, что ты возьмешь на себя ответственность представлять его семью на всех копах, на  которые ты будешь участвовать как старшина общины.
+  Это значит, что ты возьмешь на себя ответственность представлять его семью на всех копах, на которых ты будешь участвовать как старшина общины.
   
   Посмотреть подробности и принять решение можно в разделе "Моя десятка" здесь ${container.constants.messaging.baseClientUrl}/ten`
 
