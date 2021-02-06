@@ -7,7 +7,7 @@ services:
       DB_HOST: db
       DB_PORT: 5432
     volumes:
-      - logs:/app/logs/
+      - node-logs:/app/logs/
       - ./.env:/app/.env
     ports:
       # внутри тоже порты разные, чтобы можно было и без контейнера одновременно  запустить сервера дев и тест
@@ -80,7 +80,7 @@ services:
     #      - '9200:9200'
     volumes:
       - ./elastic/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-  #      - ./elastic/data:/usr/share/elasticsearch/data
+      - elastic-data:/usr/share/elasticsearch/data
 
   logstash:
     build:
@@ -94,7 +94,7 @@ services:
       - LOGSTASH_USER=${ELASTIC_USERNAME}
       - LS_JAVA_OPTS=-Xmx256m -Xms256m
     volumes:
-      - logs:/var/log/logs/
+      - node-logs:/var/log/logs/
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     #      - ./logstash/templates:/usr/share/logstash/templates/
@@ -127,4 +127,5 @@ services:
 
 volumes:
   dist:
-  logs:
+  node-logs:
+  elastic-data:
