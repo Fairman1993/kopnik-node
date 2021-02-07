@@ -12,3 +12,6 @@ temp/
 /var
 vksession
 /data/certbot
+/var-wwww-certbot
+/data
+/etc-letsencrypt
