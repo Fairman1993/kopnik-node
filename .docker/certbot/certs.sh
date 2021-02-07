@@ -10,7 +10,7 @@ domain=$1
 mode=$2
 
 echo "domain: $domain"
-echo "mode: $mode"
+echo "mode: |$mode|"
 
 if [ -d "/etc/letsencrypt/live" ]; then
   read -p "Existing data found for $domain. Continue and replace existing certificate? (Y/n) " decision
@@ -46,12 +46,7 @@ rm -Rf "/etc/letsencrypt/renewal/$domain.conf"
 echo
 
 echo "### Requesting Let's Encrypt certificate for $domain ..."
-certbot certonly --webroot -w /var/www/certbot \
-  "$mode" --email alexey2baranov@gmail.com \
-  -d "$domain" -d "www.$domain" \
-  --rsa-key-size 4096 \
-  --agree-tos \
-  --force-renewal
+certbot certonly --webroot -w /var/www/certbot $mode --email alexey2baranov@gmail.com -d "$domain" -d "www.$domain" --rsa-key-size 4096 --agree-tos --force-renewal
 echo
 
 echo "### Reload nginx by command"
