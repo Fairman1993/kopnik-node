@@ -7,6 +7,9 @@ import container from "@/di/container";
 import _ from 'lodash'
 import ConsoleStream from "@/di/createLogger/ConsoleStream";
 import ContextStream from "@/di/createLogger/ContextStream";
+import LoggerHooked from "@/di/createLogger/LoggerEmitter";
+import clscontext from "@/context/context";
+import plain from "@entity/user/plain";
 
 
 container.bind<interfaces.Factory<Logger>>(TYPES.createLogger).toFactory((context) => {
@@ -14,20 +17,27 @@ container.bind<interfaces.Factory<Logger>>(TYPES.createLogger).toFactory((contex
     const defaultOptions: LoggerOptions = {
       name: "main",
       streams: [
-        {
+/*        {
           level: 'debug',
           type: "raw",
           stream: new ContextStream() as any
-        },
+        },*/
         {
           level: 'debug',
           type: "raw",
           stream: new ConsoleStream() as any
         },
+        {
+          type: "rotating-file",
+          path: resolve(__dirname, '../../../logs', process.env.NODE_ENV + ".log"),
+          period: "1d",   // daily rotation
+          count: 30,        // keep 100 back copies
+          level: "debug"
+        },
       ],
       serializers: {
         ...Logger.stdSerializers,
-        msg(msg){
+        msg(msg) {
           return msg
         }
       },
@@ -36,61 +46,47 @@ container.bind<interfaces.Factory<Logger>>(TYPES.createLogger).toFactory((contex
 
     // в dev режиме сами отправляем логи в Логсташ
     switch (process.env.NODE_ENV) {
-/*      case 'development':
-                (defaultOptions.streams as any).push({
-                  level: 'debug',
-                  type: "raw",
-                  stream: bunyantcp.createStream({
-                    host: 'urz.open.ru',
-                    // port: 9998,
-                    port: 9995,
-                  })
-                })
-        break*/
+      /*      case 'development':
+                      (defaultOptions.streams as any).push({
+                        level: 'debug',
+                        type: "raw",
+                        stream: bunyantcp.createStream({
+                          host: 'urz.open.ru',
+                          // port: 9998,
+                          port: 9995,
+                        })
+                      })
+              break*/
       case 'test':
         break
       case 'production':
       case 'staging':
       case 'development':
-        (defaultOptions.streams as any).push({
-          type: "rotating-file",
-          path: resolve(__dirname, '../../../logs', process.env.NODE_ENV + ".log"),
-          period: "1d",   // daily rotation
-          count: 100,        // keep 100 back copies
-          level: "debug"
-        })
+        // (defaultOptions.streams as any).push()
         break
     }
     const loggerOptions = _.merge(defaultOptions, options)
-    return new class CustomLogger extends Logger {
-      log(level: 'debug' | 'warn' | 'info' | 'error', params: any[]) {
-          // @ts-ignore
-          return super[level](...params)
+    const result= new LoggerHooked(loggerOptions)
+    result.on('beforeEmit', (rec, noemit)=>{
+      // levelName
+      rec.levelName= Logger.nameFromLevel[rec.level]
+
+      // req_id
+      const req_id = clscontext.req_id
+      if (req_id) {
+        rec.req_id = req_id
+      } else {
+        delete rec.req_id
       }
 
-      // @ts-ignore
-      debug(...params): void {
-        // @ts-ignore
-        return this.log('debug', params)
+      // user
+      const user = clscontext.user
+      if (user) {
+        rec.user = plain(user, {isCurrentUser: true})
+      } else {
+        delete rec.user
       }
-
-      // @ts-ignore
-      info(...params): void {
-        // @ts-ignore
-        return this.log('info', params)
-      }
-
-      // @ts-ignore
-      warn(...params): void {
-        // @ts-ignore
-        return this.log('warn', params)
-      }
-
-      // @ts-ignore
-      error(...params): void {
-        // @ts-ignore
-        return this.log('error', params)
-      }
-    }(loggerOptions)
+    })
+    return result
   }
 })
