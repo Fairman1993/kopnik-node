@@ -29,8 +29,8 @@
     "docker-compose:up:client-test": "npm run env:test && docker-compose pull && docker-compose up node db",
     "docker-compose:typeorm:schema:reset": "docker-compose exec node npm run typeorm:schema:drop && npm run typeorm:migration:run",
 
-    "ssh:db": "ssh -f -N -R 5435:localhost:5435 someuser@staging.kopnik.org",
-    "ssh:elk": "ssh -f -N -L 5601:localhost:5601 someuser@staging.kopnik.org"
+    "ssh:db": "ssh -f -N -R 5435:localhost:5435 someuser@kopnik.org",
+    "ssh:elk": "ssh -f -N -L 5601:localhost:5601 someuser@kopnik.org"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",

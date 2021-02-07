@@ -48,9 +48,9 @@ const constants = {
   },
   production: {
     auth:{
-      callbackURL: 'https://staging.kopnik.org/auth/vkontakte/callback',
-      successRedirect: 'https://staging.kopnik.org',
-      failureRedirect: 'https://staging.kopnik.org'
+      callbackURL: 'https://kopnik.org/auth/vkontakte/callback',
+      successRedirect: 'https://kopnik.org',
+      failureRedirect: 'https://kopnik.org'
     },
     db: {
       "synchronize": false,
@@ -58,7 +58,7 @@ const constants = {
     },
     messaging: {
       waitFriendDelay: 60000,
-      baseClientUrl: 'https://staging.kopnik.org/',
+      baseClientUrl: 'https://kopnik.org/',
     }
   },
 } as { [key: string]: IConstants }
