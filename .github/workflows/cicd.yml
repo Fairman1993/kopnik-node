@@ -56,7 +56,7 @@ jobs:
             git pull
             docker-compose down --remove-orphans --volumes
             docker-compose pull --quiet
-            docker-compose up -d
+            docker-compose up --build -d
             docker-compose exec -T node npm run typeorm:migration:run
           host: kopnik.org
           username: someuser

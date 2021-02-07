@@ -47,8 +47,7 @@ echo
 
 echo "### Requesting Let's Encrypt certificate for $domain ..."
 certbot certonly --webroot -w /var/www/certbot \
-  "$mode" \
-  --email alexey2baranov@gmail.com \
+  "$mode" --email alexey2baranov@gmail.com \
   -d "$domain" -d "www.$domain" \
   --rsa-key-size 4096 \
   --agree-tos \
