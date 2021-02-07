@@ -36,12 +36,13 @@ services:
     command: [ "sleep", "1000000" ]
 
   nginx:
-#    image: kopnikorg/kopnik-nginx:latest
+    #    image: kopnikorg/kopnik-nginx:latest
     image: nginx:latest
+    restart: unless-stopped
+
     volumes:
       - ./.docker/nginx/templates:/etc/nginx/templates
-#      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
-      - ../etc-letsencrypt:/etc/letsencrypt
+      - ../kopnik-etc-letsencrypt:/etc/letsencrypt
       - var-wwww-certbot:/var/www/certbot
       - dist:/app/dist
     ports:
@@ -56,18 +57,18 @@ services:
       - node
       - kibana
       - certbot
-#    TODO: такой кастомный энтрипоинт игнорирует стандартынй обработчик шаблонов
-#    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  #    TODO: такой кастомный энтрипоинт игнорирует стандартынй обработчик шаблонов
+  #    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   certbot:
     build:
       context: ./.docker/certbot
     volumes:
-      - ../etc-letsencrypt:/etc/letsencrypt
+      - ../kopnik-etc-letsencrypt:/etc/letsencrypt
       - var-wwww-certbot:/var/www/certbot
     environment:
       - NGINX_DOMAIN:${NGINX_DOMAIN}
-    entrypoint: "/bin/sh -c '/init-dummy-cert-if-nothing-exists.sh && trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   elasticsearch:
     build:
@@ -102,11 +103,11 @@ services:
       - ./.docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./.docker/logstash/pipeline:/usr/share/logstash/pipeline
     #      - ./logstash/templates:/usr/share/logstash/templates/
-#    links:
-#      - 'elasticsearch'
-  #    ports:
-  #      - '9600:9600'
-  #      - '5044:5044'
+    #    links:
+    #      - 'elasticsearch'
+    #    ports:
+    #      - '9600:9600'
+    #      - '5044:5044'
     depends_on:
       - elasticsearch
 
@@ -120,8 +121,8 @@ services:
     environment:
       - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
       - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
-#    links:
-#      - 'elasticsearch'
+    #    links:
+    #      - 'elasticsearch'
     ports:
       - '5601:5601'
     volumes:
