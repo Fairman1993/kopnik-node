@@ -43,8 +43,10 @@ import container from "@/di/container";
 import {User} from "@entity/user/User.entity";
 import callback from "@api/middleware/passport/callback";
 import logout from "@api/users/logout";
+import req_id from "@api/middleware/req_id"
 
 const app = express()
+app.use(req_id)
 app.use(cors({
   origin: ['http://localhost:8080', 'https://localhost:8080', 'https://staging.kopnik.org', 'https://kopnik.org',],
   credentials: true,
