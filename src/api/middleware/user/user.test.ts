@@ -6,10 +6,10 @@ import {EntityManager, getManager,} from "typeorm";
 import {User} from "@entity/user/User.entity";
 import createUser from "@entity/user/test-utils/createTestUser";
 import container from "@/di/container";
-import callback from "@api/middleware/passport/callback";
+import passportCallback from "@api/middleware/passport/passportCallback";
 
 
-describe('authenticate', () => {
+describe('user', () => {
   const VK_TEST_USER = parseInt(process.env.VK_TEST_USER)
 
   beforeAll(async () => {
@@ -48,7 +48,7 @@ describe('authenticate', () => {
       ],
 
     }
-    await callback('accessToken', 'refreshToken', [], fakeProfile, (e, user) => {
+    await passportCallback('accessToken', 'refreshToken', [], fakeProfile, (e, user) => {
       expect(user.id).toBeTruthy()
     })
   })

@@ -21,6 +21,7 @@ export default async function (req: Request, res: Response) {
       witness: context.user,
       status: StatusEnum.Pending,
     },
+    relations: ['witness',]
   })
 
   res.json(response(result.map(eachUser => plainForCurrentUser(eachUser, ))))

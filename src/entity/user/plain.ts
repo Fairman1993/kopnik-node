@@ -1,6 +1,11 @@
 import {User} from "@entity/user/User.entity";
 
-export default function (user: User, options: { isCurrentUser?: boolean, isForeman?: boolean, isSubordinate?: boolean, isWitness?: boolean, isSubordinateRequest?: boolean } = {}) {
+/**
+ *
+ * @param user
+ * @param options
+ */
+export default function (user: User, options: { isCurrentUser?: boolean, isCurrentUserForeman?: boolean, isCurrentUserSubordinate?: boolean, isCurrentUserWitnessRequest?: boolean, isCurrentUserSubordinateRequest?: boolean } = {}) {
   const result = {
     id: user.id,
     locale: user.locale,
@@ -28,15 +33,15 @@ export default function (user: User, options: { isCurrentUser?: boolean, isForem
     mid: user.mid,
   }
   // passport
-  if (!options.isCurrentUser && !options.isWitness) {
+  if (!options.isCurrentUser && !options.isCurrentUserWitnessRequest) {
     delete result.passport
   }
   // witness
-  if (!options.isCurrentUser && !options.isWitness) {
+  if (!options.isCurrentUser && !options.isCurrentUserWitnessRequest) {
     delete result.witness_id
   }
   // foremanRequest
-  if (!options.isCurrentUser && !options.isSubordinateRequest) {
+  if (!options.isCurrentUser && !options.isCurrentUserSubordinateRequest) {
     delete result.foremanRequest_id
   }
   // foremanRequests
@@ -49,12 +54,12 @@ export default function (user: User, options: { isCurrentUser?: boolean, isForem
   }
 
   // witnessChatId? witnessChatInviteLink
-  if (!options.isCurrentUser && !options.isWitness) {
+  if (!options.isCurrentUser && !options.isCurrentUserWitnessRequest) {
     delete result.witnessChatInviteLink
   }
 
   //   tenChatId, tenChatInviteLink
-  if (!options.isCurrentUser && !options.isForeman) {
+  if (!options.isCurrentUser && !options.isCurrentUserForeman) {
     delete result.tenChatInviteLink
   }
 

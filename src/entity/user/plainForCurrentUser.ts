@@ -10,9 +10,9 @@ export default function (user: User) {
   const currentUser= context.user
   return plain(user, {
     isCurrentUser: user.id == currentUser?.id,
-    isForeman: user.id == currentUser?.foreman?.id,
-    isWitness: user.id == currentUser?.witness?.id,
-    isSubordinate: !!currentUser?.subordinates?.find(eachSubordinate => eachSubordinate.id == user.id),
-    isSubordinateRequest:  !!currentUser?.foremanRequests?.find(eachSubordinateRequest => eachSubordinateRequest.id == user.id),
+    isCurrentUserForeman: user.id == currentUser?.foreman?.id,
+    isCurrentUserWitnessRequest: user?.witness?.id == currentUser?.id,
+    isCurrentUserSubordinate: !!currentUser?.subordinates?.find(eachSubordinate => eachSubordinate.id == user.id),
+    isCurrentUserSubordinateRequest:  !!currentUser?.foremanRequests?.find(eachSubordinateRequest => eachSubordinateRequest.id == user.id),
   })
 }
