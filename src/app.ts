@@ -41,12 +41,15 @@ import {getManager, Transaction} from "typeorm";
 import inviteKopa from "@api/users/inviteKopa";
 import container from "@/di/container";
 import {User} from "@entity/user/User.entity";
-import callback from "@api/middleware/passport/callback";
+import passportCallback from "@api/middleware/passport/passportCallback";
 import logout from "@api/users/logout";
 import req_id from "@api/middleware/req_id"
 
 const app = express()
+
+app.use(httpContext.middleware)
 app.use(req_id)
+
 app.use(cors({
   origin: ['http://localhost:8080', 'https://localhost:8080', 'https://staging.kopnik.org', 'https://kopnik.org',],
   credentials: true,
@@ -79,7 +82,7 @@ pass.use(new VKontakteStrategy({
     lang: 'ru',
     apiVersion: '5.126'
   },
-  callback
+  passportCallback
 ))
 passport.serializeUser(function (data, done) {
   done(null, data)
@@ -87,7 +90,7 @@ passport.serializeUser(function (data, done) {
 passport.deserializeUser(function (data, done) {
   done(null, data)
 })
-app.get('/auth/vkontakte', pass.authenticate('vkontakte'));
+app.get('/auth/vkontakte', pass.authenticate('vkontakte'))
 app.get('/auth/vkontakte/callback',
   pass.authenticate('vkontakte', {
     successRedirect: container.constants.auth.successRedirect,
@@ -96,7 +99,6 @@ app.get('/auth/vkontakte/callback',
 )
 
 // middleware after auth
-app.use(httpContext.middleware)
 app.use(db)
 app.use(user)
 app.use(welcome)
