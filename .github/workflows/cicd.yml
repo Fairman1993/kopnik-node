@@ -52,7 +52,7 @@ jobs:
         uses: alexey2baranov/github-action-ssh@release
         with:
           command: |
-            cd ${{ secrets.SSH_PATH }}
+            cd ~/kopnik-docker
             git pull
             docker-compose down --remove-orphans --volumes
             docker-compose pull --quiet

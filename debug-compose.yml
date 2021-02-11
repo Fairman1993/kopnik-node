@@ -7,7 +7,7 @@ services:
       DB_HOST: db
       DB_PORT: 5432
     volumes:
-      - node-logs:/app/logs/
+      - ../kopnik-node-logs:/app/logs/
       - ./.env:/app/.env
     ports:
       # внутри тоже порты разные, чтобы можно было и без контейнера одновременно  запустить сервера дев и тест
@@ -86,7 +86,7 @@ services:
     #      - '9200:9200'
     volumes:
       - ./.docker/elastic/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - elastic-data:/usr/share/elasticsearch/data
+      - ../kopnik-elastic:/usr/share/elasticsearch/data
 
   logstash:
     build:
