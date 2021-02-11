@@ -47,6 +47,10 @@ import req_id from "@api/middleware/req_id"
 
 const app = express()
 
+app.use(bodyParser.json())
+
+// https://www.npmjs.com/package/express-cls-hooked
+// If you are using body-parser and context is getting lost, register it in express before you register express-cls-hooked's middleware.
 app.use(httpContext.middleware)
 app.use(req_id)
 
@@ -57,7 +61,7 @@ app.use(cors({
 
 
 app.use(cookieParser())
-app.use(bodyParser.json())
+
 // app.use(expressSession({secret: 'keyboard cat', resave: true, saveUninitialized: true}));
 app.use(cookieSession({
   name: 'sessionId',
