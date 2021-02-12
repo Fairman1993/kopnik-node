@@ -28,7 +28,6 @@
     "docker-compose:up:db": "docker-compose up db",
     "docker-compose:up:client-test": "npm run env:test && docker-compose pull && docker-compose up node db",
     "docker-compose:typeorm:schema:reset": "docker-compose exec node npm run typeorm:schema:drop && npm run typeorm:migration:run",
-
     "ssh:db": "ssh -f -N -R 5435:localhost:5435 someuser@kopnik.org",
     "ssh:elk": "ssh -f -N -L 5601:localhost:5601 someuser@kopnik.org"
   },
@@ -47,6 +46,7 @@
     "body-parser": "^1.18.1",
     "bunyan": "^1.8.14",
     "bunyan-logstash-tcp": "^1.0.0",
+    "bunyan-rotating-file-stream": "^1.6.3",
     "client-oauth2": "^4.3.3",
     "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",
