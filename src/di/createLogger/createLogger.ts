@@ -10,6 +10,7 @@ import clscontext from "@/context/context";
 import plain from "@entity/user/plain";
 import RotatingFileStream from "bunyan-rotating-file-stream";
 
+// https://www.npmjs.com/package/bunyan-rotating-file-stream
 const rotatingFileStream = new RotatingFileStream({
   path: resolve(__dirname, '../../../logs', `${process.env.NODE_ENV}.%F.log`),
   // period: '1d',

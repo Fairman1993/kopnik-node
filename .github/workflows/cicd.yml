@@ -53,7 +53,7 @@ jobs:
         with:
           command: |
             cd ~/kopnik-docker
-            docker-compose pull --quiet-pull node
+            docker-compose pull --quiet node
             docker-compose up --build -d node
             docker-compose exec -T node npm run typeorm:migration:run
           host: kopnik.org
