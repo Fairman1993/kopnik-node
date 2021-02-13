@@ -39,18 +39,11 @@ export default async function (req: Request, res: Response) {
     // сохраняю переданные данные (пока без чата заверения, который обновится асинхронно ниже)
     await em.save(user)
 
-    // собираю в чат асинхронно, чтобы пользователю не вернулся таймаут пока ждет одобрение дружбы со Святославом
-    meetHalfUserWitness(user, user.witness)
-      // отдельно сохраняю чат
-      .then(async chat => {
-        if (!user.witnessChat?.id) {
-          user.witnessChat = chat
-          await getManager().update(User, user.id, {witnessChat: user.witnessChat})
-        }
-      })
-      .catch(err=>{
-        logger.error(err)
-      })
+    // если чат уже создан, значит его использую для сведения с заверителем
+    // иначе чат будет создан и сведение будет сделано в отдельной службе src/job/meetHalfUserReadyToWitnessChat.ts
+    if (user.witnessChat?.id) {
+      await meetHalfUserWitness(user, user.witness)
+    }
 
     res.json(response({
       witness_id: user.witness.id,

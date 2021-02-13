@@ -8,6 +8,7 @@ import response from "@api/response";
 import StatusEnum from "@entity/user/StatusEnum";
 import KError from "@/error/KError";
 import {FriendActivityContext} from "vk-io";
+import FriendStatusEnum from "@/di/vk-io/FriendStatusEnum";
 
 /**
  * doc: https://vk.com/dev/friends.areFriends
@@ -20,5 +21,5 @@ export default async function (req: Request, res: Response) {
     need_sign: 0,
   })
 
-  res.json(response(areFriend.friend_status == 3))
+  res.json(response([FriendStatusEnum.Friend, FriendStatusEnum.HeSendRequest].includes(areFriend.friend_status)))
 }

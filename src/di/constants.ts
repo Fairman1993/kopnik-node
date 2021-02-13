@@ -11,6 +11,7 @@ export interface IConstants {
   messaging:{
     waitFriendDelay:number,
     baseClientUrl: string,
+    checkSvetoslavFriendshipInterval: number,
   }
 
 }
@@ -29,6 +30,7 @@ const constants = {
     messaging: {
       waitFriendDelay: 15000,
       baseClientUrl: 'https://localhost:8080/',
+      checkSvetoslavFriendshipInterval: 60000,
     }
   },
   test: {
@@ -44,6 +46,7 @@ const constants = {
     messaging: {
       waitFriendDelay: 1,
       baseClientUrl: 'https://localhost:8080/',
+      checkSvetoslavFriendshipInterval: 0,
     }
   },
   production: {
@@ -59,6 +62,7 @@ const constants = {
     messaging: {
       waitFriendDelay: 60000,
       baseClientUrl: 'https://kopnik.org/',
+      checkSvetoslavFriendshipInterval: 60000,
     }
   },
 } as { [key: string]: IConstants }

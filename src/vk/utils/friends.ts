@@ -16,14 +16,14 @@ import svetoslav from "@entity/user/konaz";
  * информирует о статусах ISendRequest и HeSendRequest
  * NotFriend не будет ждать вовсе, вместо этого выбросит ошибку. Потому что если заявка не подана, мало шансов, что ее додумаются подать и подтвердить
  */
-export default async function (users: User[], options: { wait?: boolean }, callback: (friendStatuses?: FriendsFriendStatusEx[]) => Promise<void>): Promise<void> {
+export default async function (users: User[], options: { wait?: boolean }, callback?: (friendStatuses?: FriendsFriendStatusEx[]) => Promise<void>): Promise<FriendsFriendStatusEx[]> {
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
   let iteration = 0
   let lowestFriendStatus: number
   let areFriends: FriendsFriendStatusEx[]
 
-  console.log(users)
+  // console.log(users)
 
   // исключаем святослава из списка ожидаемых друзей самого себя, т.к. невозможно получить статуc FRIEND самому себе
   users = users.filter(u => u.mid !== svetoslav().mid)
@@ -59,6 +59,12 @@ export default async function (users: User[], options: { wait?: boolean }, callb
     }
     while (options.wait && lowestFriendStatus !== FriendStatusEnum.Friend)
   }
+  else {
+    areFriends=[]
+  }
 
-  await callback(areFriends)
+  if (callback) {
+    await callback(areFriends)
+  }
+  return areFriends
 }

@@ -6,6 +6,7 @@ import container from "@/di/container";
 import {basename} from "path";
 import '@/utils/checkEnv'
 import {types} from 'pg'
+import meetHalfUserReadyToWitnessChat from "@/job/meetHalfUserReadyToWitnessChat";
 
 
 // doc: https://github.com/typeorm/typeorm/issues/2400#issuecomment-612193003
@@ -31,4 +32,14 @@ logger.info(`process.NODE_ENV = ${process.env.NODE_ENV}`);
     logger.info(`Express server has started on port ${process.env.APP_PORT}. Open https://localhost:${process.env.APP_PORT}/api/test/ping?qwerty to see results`)
   }
 
+  // ожидающие когда можно будет им создать чат заверения
+  setInterval(async () => {
+    try {
+      await meetHalfUserReadyToWitnessChat()
+    }
+    catch(err){
+      logger.error(err, 'Ошибка встречи ожидаемых пользователей со старшинами')
+    }
+  }, container.constants.messaging.checkSvetoslavFriendshipInterval)
 })()
+
