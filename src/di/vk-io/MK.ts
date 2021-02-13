@@ -16,6 +16,15 @@ export default class {
     this.api.execute = async (code) => {
       return {response: 1, errors: []} as any
     }
+    this.api.messages.getChatPreview = async (params) => {
+      assert.ok(params.link, 'link can\'t be null')
+      return {
+        preview: {
+          members: [],
+        },
+        profiles: []
+      }
+    }
     this.api.messages.send = async (params) => {
       assert.notEqual(params.peer_id, 2000000000, 'chat_id can\' be 2000000000')
       assert.notEqual(params.message, null, `message can't be empty`)

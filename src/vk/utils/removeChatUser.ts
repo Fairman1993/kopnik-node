@@ -6,7 +6,7 @@ import Chat from "@entity/Chat.entity";
 import konaz from "@entity/user/konaz";
 
 // doc: https://vk.com/dev/messages.removeChatUser
-export default async function (chat: Chat, user: User, ): Promise<void> {
+export default async function removeChatUser(chat: Chat, user: User, ): Promise<void> {
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
 
@@ -15,17 +15,20 @@ export default async function (chat: Chat, user: User, ): Promise<void> {
     return
   }
 
-  logger.info({
-    chat
-  }, `${chat.id}: Исключил ${user.iof}`)
+  try {
+    await vk.api.messages.removeChatUser({
+      chat_id: chat.id,
+      user_id: user.mid,
+    })
 
-  await vk.api.messages.removeChatUser({
-    chat_id:chat.id,
-    user_id: user.mid,
-  })
-
-  logger.info({
-    chat,
-    added: plain(user),
-  }, `Исключил ${user.iof} из чата ${chat.id} ${chat.inviteLink}`)
+    logger.info({
+      chat,
+      added: plain(user),
+    }, `Исключил ${user.iof} из чата ${chat.id} ${chat.inviteLink}`)
+  }
+  catch(err){
+    if (err.code!=935) {
+      throw err
+    }
+  }
 }

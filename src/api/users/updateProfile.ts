@@ -19,7 +19,6 @@ import transaction from "@/transaction/transaction";
  */
 export default async function (req: Request, res: Response) {
   await transaction(async () => {
-
     const logger = container.createLogger({name: basename(__filename),}),
       body = req.body
     const user = context.user
@@ -48,6 +47,9 @@ export default async function (req: Request, res: Response) {
           user.witnessChat = chat
           await getManager().update(User, user.id, {witnessChat: user.witnessChat})
         }
+      })
+      .catch(err=>{
+        logger.error(err)
       })
 
     res.json(response({
