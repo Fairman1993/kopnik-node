@@ -6,10 +6,13 @@ import createChat from "@/vk/utils/createChat";
 import Chat from "@entity/Chat.entity";
 import sendToGroupChat from "@/vk/utils/sendToGroupChat";
 import konaz from "@entity/user/konaz";
+import addChatUser from "@/vk/utils/addChatUser";
+import user from "@api/middleware/user/user";
 
 /**
  * Приглашает пользователей и Святослава в чат и пишет вводные сообщения
  * Если чата нет, создает его и возвращает
+ * Если чат есть, повторно приглашает в него всех, потому что могли выйти
  *
  * @return новый чат
  */
@@ -17,9 +20,15 @@ export default async function (title: string, users: User[], options: { data?: M
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
 
-  // создаю чат
   let result: Chat
-  if (!options.chat?.id) {
+  // если чат создан, добавляю в него пользователей
+  if (options.chat?.id) {
+    for (let eachUser of users) {
+      await addChatUser(options.chat, eachUser)
+    }
+  }
+  // иначе создаю новый чат пользователей
+  else {
     result = await createChat(title,
       [...users, konaz()],
     )
