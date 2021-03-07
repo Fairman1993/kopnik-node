@@ -57,8 +57,8 @@ describe('updateProfile', () => {
     const halfUsers2 = await meetHalfUserReadyToWitnessChat()
     expect(halfUsers2).toHaveLength(1)
 
-    // отправилось сообщение в чат (длинное сообщение разбилось на 2)
-    expect((vk.api.messages.send as jest.Mock).mock.calls).toHaveLength(2)
+    // отправилось сообщение в чат
+    expect((vk.api.messages.send as jest.Mock).mock.calls).toHaveLength(1)
   })
 
   it('friends', async () => {
@@ -69,8 +69,8 @@ describe('updateProfile', () => {
       .send(plain(halfUser))
 
     expect(res.status).toEqual(200)
-    // отправилось сообщение в чат (длинное сообщение разбилось на 2)
-    expect((vk.api.messages.send as jest.Mock).mock.calls).toHaveLength(2)
+    // отправилось сообщение в чат
+    expect((vk.api.messages.send as jest.Mock).mock.calls).toHaveLength(1)
   })
 })
 
