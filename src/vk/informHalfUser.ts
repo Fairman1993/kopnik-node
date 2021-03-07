@@ -19,8 +19,8 @@ export default async function (halfUser: User, witness: User): Promise<void> {
   await sendToGroupChat(halfUser.witnessChat, {
     message: join([
       message,
-      'На этом данный чат исчерпал свое предназначение. Расходимся все отсюда.' +
-      'Во благо!'
+      `На этом данный чат исчерпал свое предназначение. Расходимся все отсюда.
+      Во благо!`
     ])
   })
   await removeChatUser(halfUser.witnessChat, halfUser)
