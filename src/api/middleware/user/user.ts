@@ -29,6 +29,9 @@ export default async function (req: Request, res: Response, next: Function) {
 
   if (user.status===StatusEnum.New && !user.latitude && !user.longitude){
     const ipInfo= await container.ipApi(req.ip)
+    logger.info({
+      ipInfo,
+    }, 'ip-api info')
     if (ipInfo.status=="success") { // для разработки (ip=::1) status=='fail'
       user.longitude = ipInfo.lon
       user.latitude = ipInfo.lat
