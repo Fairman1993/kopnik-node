@@ -7,4 +7,5 @@ export default interface IIpApiResult {
   city: string,
   lat: number,
   lon: number,
+  query: string,
 }

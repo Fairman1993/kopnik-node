@@ -13,7 +13,8 @@ container.bind<typeof ipApi>(TYPES.ipApi).toDynamicValue(context => {
         "regionName": "Quebec",
         "city": "Montreal",
         "lat": 0,
-        "lon": 0
+        "lon": 0,
+        query:'test'
       }
     }
   }
