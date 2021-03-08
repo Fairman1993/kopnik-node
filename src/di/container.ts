@@ -1,19 +1,12 @@
-import {Container, interfaces} from "inversify";
-import {Connection, ConnectionOptions, createConnection, getConnection, QueryRunner} from "typeorm/index";
+import {Container} from "inversify";
+import {Connection} from "typeorm/index";
 import TYPES from "@/di/TYPES";
-import {resolve} from "path";
-import Logger, {LoggerOptions} from "bunyan";
-import bunyantcp from 'bunyan-logstash-tcp'
-import _ from 'lodash'
-import httpContext from 'express-cls-hooked'
-import {Logger as TypeORMLogger} from "typeorm"
+import Logger from "bunyan";
 import {PostgresConnectionOptions} from "typeorm/driver/postgres/PostgresConnectionOptions";
 import constants, {IConstants} from "@/di/constants";
-import {SnakeNamingStrategy} from "typeorm-naming-strategies";
 import IDbProvider from "@/di/db/IDbProvider";
 import IVKProvider from "@/di/vk-io/IVKProvider";
 import {VK} from "vk-io";
-
 
 export class CustomContainer extends Container {
   get constants(): IConstants {
@@ -43,6 +36,10 @@ export class CustomContainer extends Container {
   get vk(): VK {
     return this.get<VK>(TYPES.vkIo)
   }
+
+  get ipApi(): typeof ipApi{
+    return this.get<typeof ipApi>(TYPES.ipApi)
+  }
 }
 
 const container = new CustomContainer();
@@ -61,6 +58,10 @@ import './db/dbOptions'
 import './db/db'
 
 // vk
-import "@/di/vk-io/vk-io";
+import "@/di/vk-io/vk-io"
+
+// ip-api
+import "@/di/ip-api/ip-api"
+import ipApi from "@/di/ip-api/ipApi";
 
 

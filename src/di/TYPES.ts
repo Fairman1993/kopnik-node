@@ -8,6 +8,7 @@ const TYPES={
   createLogger: Symbol('createLogger'),
   EntityManager: Symbol('EntityManager'),
   constants: Symbol('constants'),
+  ipApi: Symbol('ip-api'),
 }
 
 export default TYPES

@@ -3,7 +3,8 @@ import container from "@/di/container";
 import {basename} from "path";
 import context from "@/context/context";
 import {User} from "@entity/user/User.entity";
-import {getManager,} from "typeorm";
+import {getManager, getRepository,} from "typeorm";
+import StatusEnum from "@entity/user/StatusEnum";
 
 /**
  * Аутентифицирует пользователя на основе его кукисов
@@ -25,6 +26,15 @@ export default async function (req: Request, res: Response, next: Function) {
     },
     relations: ['foreman', 'subordinates', 'foremanRequest', 'witness']
   })
+
+  if (user.status===StatusEnum.New && !user.latitude && !user.longitude){
+    const ipInfo= await container.ipApi(req.ip)
+    if (ipInfo.status=="success") { // для разработки (ip=::1) status=='fail'
+      user.longitude = ipInfo.lon
+      user.latitude = ipInfo.lat
+      await em.save(user)
+    }
+  }
 
   context.set('user', user)
   // logger.debug(`${user.mid} -> ${user.id} : ${user.firstName} ${user.patronymic} ${user.lastName}`)

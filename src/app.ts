@@ -83,8 +83,9 @@ pass.use(new VKontakteStrategy({
     clientID: process.env.VK_CLIENT_ID, // VK.com docs call it 'API ID', 'app_id', 'api_id', 'client_id' or 'apiId'
     clientSecret: process.env.VK_CLIENT_SECRET,
     callbackURL: container.constants.auth.callbackURL,
+    // passReqToCallback: true,
     lang: 'ru',
-    apiVersion: '5.126'
+    apiVersion: '5.126',
   },
   passportCallback
 ))
