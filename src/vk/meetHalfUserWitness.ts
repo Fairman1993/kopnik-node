@@ -18,16 +18,16 @@ export default async function (halfUser: User, witness: User): Promise<Chat> {
     throw new KError(`Empty witness`, 1500)
   }
 
-  // ожидаю когда можно будет создать чат и пригласить в него обоих
-  await friends([halfUser, halfUser.witness], {wait: true}, async () => {
+  // смысла больше нет, потому что это вызывается из main.ts только когда есть дружба
+  // await friends([halfUser, halfUser.witness], {wait: true}, async () => {
 
-    // свожу в чате с заверителем
-    result = await meet(`Регистрация в kopnik org ${halfUser.iof}`,
-      [halfUser, halfUser.witness,],
-      {
-        chat: halfUser.witnessChat,
-        data: {
-          message: `
+  // свожу в чате с заверителем
+  result = await meet(`Регистрация в kopnik org ${halfUser.iof}`,
+    [halfUser, halfUser.witness,],
+    {
+      chat: halfUser.witnessChat,
+      data: {
+        message: `
     $t Здравия, братцы! Единства и благополучия всему славянскому роду!
     
     ${link(halfUser, LinkMode.i)}, я создал этот чат для того, чтобы ты мог заверить свои личные данные, которые указал во время регистрации. 
@@ -73,9 +73,9 @@ export default async function (halfUser: User, witness: User): Promise<Chat> {
     Удачи!
     
     Напиши "готов"`
-        }
-      })
-  })
+      }
+    })
+  // })
 
   return result
 }

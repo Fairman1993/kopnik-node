@@ -60,7 +60,7 @@ const constants = {
       "logging": true,
     },
     messaging: {
-      waitFriendDelay: 60000,
+      waitFriendDelay: 15*60000, //15 минут
       baseClientUrl: 'https://kopnik.org/',
       checkSvetoslavFriendshipInterval: 60000,
     }
