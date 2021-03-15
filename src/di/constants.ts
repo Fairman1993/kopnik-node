@@ -67,6 +67,6 @@ const constants = {
   },
 } as { [key: string]: IConstants }
 
-console 'trigger ci/cd'
+// console 'trigger ci/cd'
 
 export default constants
