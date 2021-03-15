@@ -60,9 +60,9 @@ const constants = {
       "logging": true,
     },
     messaging: {
-      waitFriendDelay: 15*60000, //15 минут
+      waitFriendDelay: 60000,
       baseClientUrl: 'https://kopnik.org/',
-      checkSvetoslavFriendshipInterval: 60000,
+      checkSvetoslavFriendshipInterval: 15*60000, //15 минут
     }
   },
 } as { [key: string]: IConstants }
