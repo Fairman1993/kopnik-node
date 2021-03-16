@@ -7,7 +7,6 @@ import Chat from "@entity/Chat.entity";
 import sendToGroupChat from "@/vk/utils/sendToGroupChat";
 import konaz from "@entity/user/konaz";
 import addChatUser from "@/vk/utils/addChatUser";
-import user from "@api/middleware/user/user";
 
 /**
  * Приглашает пользователей и Святослава в чат и пишет вводные сообщения
@@ -36,6 +35,7 @@ export default async function (title: string, users: User[], options: { data?: M
 
   // вводные сообщения
   if (options.data) {
+    await new Promise(res=>setTimeout(res,process.env.NODE_ENV=='test'?0:1500))
     await sendToGroupChat(result || options.chat, options.data)
   }
 

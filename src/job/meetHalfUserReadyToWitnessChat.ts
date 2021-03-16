@@ -29,6 +29,10 @@ export default async function (): Promise<User[]> {
     }
   }
 
+  if (result.length>4){
+    result.length=4
+  }
+
   for (let eachHalfUser of result) {
     eachHalfUser.witnessChat = await meetHalfUserWitness(eachHalfUser, eachHalfUser.witness)
     await getManager().update(User, eachHalfUser.id, {witnessChat: eachHalfUser.witnessChat})
