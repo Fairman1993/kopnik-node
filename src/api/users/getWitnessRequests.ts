@@ -17,12 +17,13 @@ export default async function (req: Request, res: Response) {
   const logger = container.createLogger({name: basename(__filename),})
 
   const result = await getRepository(User).find({
-    where:{
+    where: {
       witness: context.user,
       status: StatusEnum.Pending,
     },
+    order: {updatedAt: 'DESC'},
     relations: ['witness',]
   })
 
-  res.json(response(result.map(eachUser => plainForCurrentUser(eachUser, ))))
+  res.json(response(result.map(eachUser => plainForCurrentUser(eachUser,))))
 }

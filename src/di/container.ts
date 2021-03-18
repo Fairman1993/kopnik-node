@@ -28,6 +28,13 @@ export class CustomContainer extends Container {
   get provideDatabase(): IDbProvider {
     return this.get<IDbProvider>(TYPES.dbProvider)
   }
+  get i18next(): typeof i18next {
+    return container.get<typeof i18next>(TYPES.i18Next)
+  }
+
+  get provideI18next(): I18NextProvider {
+    return this.get<I18NextProvider>(TYPES.i18NextProvider)
+  }
 
   get provideVk(): IVKProvider {
     return this.get<IVKProvider>(TYPES.vkProvider)
@@ -57,11 +64,16 @@ import './createLogger/createLogger'
 import './db/dbOptions'
 import './db/db'
 
+// i18next
+import './i18next/i18next'
+
 // vk
 import "@/di/vk-io/vk-io"
 
 // ip-api
 import "@/di/ip-api/ip-api"
 import ipApi from "@/di/ip-api/ipApi";
+import i18next from "i18next";
+import I18NextProvider from "@/di/i18next/I18NextProvider";
 
 

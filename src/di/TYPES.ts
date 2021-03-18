@@ -9,6 +9,8 @@ const TYPES={
   EntityManager: Symbol('EntityManager'),
   constants: Symbol('constants'),
   ipApi: Symbol('ip-api'),
+  i18NextProvider: Symbol('i18NextProvider'),
+  i18Next: Symbol('i18Next'),
 }
 
 export default TYPES

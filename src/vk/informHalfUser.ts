@@ -20,6 +20,7 @@ export default async function (halfUser: User, witness: User): Promise<void> {
     message: join([
       message,
       `На этом данный чат исчерпал свое предназначение. Расходимся все отсюда.
+      
       Во благо!`
     ])
   })

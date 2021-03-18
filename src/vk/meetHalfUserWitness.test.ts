@@ -10,6 +10,7 @@ describe('meetHalfUserWitness', () => {
 
   beforeAll(async () => {
     await container.provideDatabase()
+    await container.provideI18next()
     vk = container.vk
   })
 
