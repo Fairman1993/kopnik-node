@@ -20,6 +20,7 @@ logger.info(`process.NODE_ENV = ${process.env.NODE_ENV}`);
 
 
   await container.provideDatabase()
+  await container.provideI18next()
 
   if (['test', 'production', 'staging'].includes(process.env.NODE_ENV)) {
     app.listen(process.env.APP_PORT)
