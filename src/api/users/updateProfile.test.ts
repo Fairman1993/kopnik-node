@@ -23,6 +23,7 @@ describe('updateProfile', () => {
     vk.api.messages.send = jest.fn(vk.api.messages.send)
 
     await container.provideDatabase()
+    await container.provideI18next()
     em = getManager()
 
     // создаю на всякий случай, потому что для заверения нужне хотя бы один пользователь

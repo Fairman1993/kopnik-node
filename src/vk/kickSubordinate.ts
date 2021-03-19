@@ -1,44 +1,29 @@
 import {User} from "@entity/user/User.entity";
 import container from "@/di/container";
-import {basename} from "path";
 import removeChatUser from "@/vk/utils/removeChatUser";
 import sendToGroupChat from "@/vk/utils/sendToGroupChat";
-import sendToDirect from "@/vk/utils/sendToDirect";
 import KError from "@/error/KError";
 import link from "@/vk/utils/link";
+import LinkMode from "@/vk/utils/LinkMode";
 
 /**
  * Исключаю подчиненного из чата десятки
  */
 export default async function (subordinate: User, kicker: User): Promise<void> {
-  if (!subordinate.foreman){
-    throw new KError('Foreman undefined' ,1500)
+  if (!subordinate.foreman) {
+    throw new KError('Foreman undefined', 1500)
   }
 
-  if (kicker===subordinate) {
-    await sendToGroupChat(subordinate.foreman.tenChat, {
-      message: `
-      Здравия, братцы!
-      Сообщаю вам, что ${link(subordinate)} принял решение выйти из десятки. 
+  const t = container.i18next.getFixedT(subordinate.foreman.locale, 'kickSubordinate')
+  const message = t(kicker === subordinate ? 'messageSelfKick' : 'messageForemanKick', {
+    who: subordinate.foreman.rank == 1 ? link(subordinate.foreman, LinkMode.i) : t('ten'),
+    foreman: link(subordinate.foreman, LinkMode.i),
+    subordinate: link(subordinate, LinkMode.i),
+  })
 
-      Исключаю его из вашего чата.
-      Во благо!`
-    })
-  }
-  else{
-    await sendToGroupChat(subordinate.foreman.tenChat, {
-      message: `
-      Здравия, братцы!
-      ${link(kicker)} исключил ${link(subordinate)} из десятки.
-      Исключаю его из вашего чата.
-      
-      ${link(subordinate)}, не отчаивайся, это не всегда плохо.
-      Если тебя исключили из десятки, найди другую десятку, с которой тебе будет по пути.
-      
-      Как бы не было, мы - один народ, и наша задача во всеобщем объединении!
-      Во благо!`
-    })
-  }
+  await sendToGroupChat(subordinate.foreman.tenChat, {
+    message
+  })
 
   await removeChatUser(subordinate.foreman.tenChat, subordinate)
 }

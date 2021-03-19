@@ -9,11 +9,16 @@ describe('resolveForemanRequest', () => {
   let halfForeman: User,
     halfSubordinate: User,
     em: EntityManager
+
+  beforeAll(async () => {
+    await container.provideI18next()
+  })
+
   beforeEach(async () => {
     await container.provideDatabase()
-    em= getManager()
-    halfForeman= await createTestUser('halfOldest')
-    halfSubordinate= await createTestUser('halfYoungest',{
+    em = getManager()
+    halfForeman = await createTestUser('halfOldest')
+    halfSubordinate = await createTestUser('halfYoungest', {
       foremanRequest_id: halfForeman.id,
     })
     await halfForeman
@@ -28,8 +33,8 @@ describe('resolveForemanRequest', () => {
         status: true,
       })
     expect(res.status).toEqual(200)
-    const subordinate= await em.findOneOrFail(User, halfSubordinate.id, {
-      relations:['foremanRequest']
+    const subordinate = await em.findOneOrFail(User, halfSubordinate.id, {
+      relations: ['foremanRequest']
     })
     expect(subordinate.foremanRequest).toBeNull()
   })

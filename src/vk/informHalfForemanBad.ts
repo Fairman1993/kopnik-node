@@ -3,16 +3,20 @@ import sendToGroupChat from "@/vk/utils/sendToGroupChat";
 import sendToDirect from "@/vk/utils/sendToDirect";
 import link from "@/vk/utils/link";
 import LinkMode from "@/vk/utils/LinkMode";
+import container from "@/di/container";
 
 /**
  * Сообщаю подавшему заявку о решении старшины (принять его или нет)
  */
 export default async function (halfForeman: User, halfSubordinate: User): Promise<void> {
-  const message = `
-  $t ${halfForeman.tenChat.id && halfForeman.rank > 1 ? `$t Здарова, десятка!` : `Здравия, ${link(halfForeman, LinkMode.i)}!`}
-  ${link(halfForeman, LinkMode.i)}, ${link(halfSubordinate)} отозвал свое предложение выбрать тебя старшиной. Так тому и быть!`
+  const t= container.i18next.getFixedT(halfForeman.locale, 'informHalfForemanBad')
+  const message = t('message', {
+    who: halfForeman.rank==1?link(halfForeman, LinkMode.i): t('ten'),
+    halfForeman: link(halfForeman, LinkMode.i),
+    halfSubordinate: link(halfSubordinate, LinkMode.iof),
+  })
 
-  if (halfForeman.tenChat.id) {
+  if (halfForeman.tenChat?.id) {
     await sendToGroupChat(halfForeman.tenChat, {
       message
     })

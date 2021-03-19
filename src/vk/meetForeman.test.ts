@@ -1,13 +1,11 @@
 import container from "@/di/container"
 import {VK} from "vk-io";
-import {basename} from "path";
+import meetHalfUserWitness from "@/vk/meetHalfUserWitness";
 import testUser from "@entity/user/test-utils/testUser";
-import meetKopa from "@/vk/meetKopa";
-import konaz from "@entity/user/konaz";
-import meetForeman from "@/vk/meetForeman";
 import Chat from "@entity/Chat.entity";
+import meetForeman from "@/vk/meetForeman";
 
-describe.only('meetKopa', () => {
+describe('meetForeman', () => {
   let vk: VK
 
   beforeAll(async () => {
@@ -22,11 +20,11 @@ describe.only('meetKopa', () => {
     (vk.api.messages.createChat as jest.Mock).mockClear();
   })
 
-  it('title, message', async () => {
-    const result = await meetKopa(basename(__filename), [testUser(), konaz()],)
+  it('do', async () => {
+    const result = await meetForeman(testUser(), )
     expect(result).toBeInstanceOf(Chat)
-    expect((vk.api.messages.createChat as jest.Mock).mock.calls[0][0].title).toContain(basename(__filename))
-    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(testUser().iof)
-    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(basename(__filename))
+    expect((vk.api.messages.createChat as jest.Mock).mock.calls[0][0].title).toContain('Борода')
+    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('Борода')
   })
 })
+

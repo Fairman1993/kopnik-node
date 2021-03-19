@@ -14,7 +14,7 @@ import sendToGroupChat from "@/vk/utils/sendToGroupChat";
  * Копник делает предложение быть старшиной
  * @param halfSubordinate
  */
-export default async function (halfSubordinate: User, halfForeman: User): Promise<Chat> {
+export default async function (halfSubordinate: User, halfForeman: User, ): Promise<Chat> {
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
   let result: Chat
@@ -23,17 +23,17 @@ export default async function (halfSubordinate: User, halfForeman: User): Promis
     throw new KError('Полустаршина не установлен', 1500)
   }
 
-  const message =`
-  ${halfForeman.tenChat.id && halfForeman.rank > 1 ? `$t Здарова, десятка!` : `Здравия, ${link(halfForeman, LinkMode.i)}!`}
-  ${link(halfForeman, LinkMode.i)}, ${link(halfSubordinate, LinkMode.iof)} предлагает тебе стать его старшиной.
-  
-  Это значит, что ты возьмешь на себя ответственность представлять его семью на всех копах, на которых ты будешь участвовать как старшина общины.
-  
-  Посмотреть подробности и принять решение можно в разделе "Моя десятка" здесь ${container.constants.messaging.baseClientUrl}/ten`
+  const t= container.i18next.getFixedT(halfForeman.locale, 'informHalfForeman')
+  const message = t('message', {
+    who: halfForeman.rank==1?link(halfForeman, LinkMode.i): t('ten'),
+    halfForeman: link(halfForeman, LinkMode.i),
+    halfSubordinate: link(halfSubordinate, LinkMode.iof),
+    baseClientUrl: container.constants.messaging.baseClientUrl
+  })
 
   // ожидаю когда можно будет создать чат и пригласить в него обоих
   await friends([halfForeman], {wait: true}, async () => {
-    if (halfForeman.tenChat.id) {
+    if (halfForeman.tenChat?.id) {
       await sendToGroupChat(halfForeman.tenChat, {
         message
       })

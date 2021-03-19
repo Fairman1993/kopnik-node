@@ -7,6 +7,8 @@ export default function (fields={}) {
     firstName: 'Борода',
     patronymic: 'Гореевич',
     lastName: 'Удалой',
+    locale: 'ru',
+    rank: 1,
     ...fields
   })
   return user

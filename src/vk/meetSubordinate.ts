@@ -14,6 +14,17 @@ import LinkMode from "@/vk/utils/LinkMode";
 export default async function (subordinate: User, foreman: User): Promise<void> {
   const logger = container.createLogger({name: basename(__filename),})
 
+  const t = container.i18next.getFixedT(foreman.locale, 'meetSubordinate')
+  const messageTen = t('messageTen', {
+    foreman: link(foreman, LinkMode.i),
+    subordinate: link(subordinate, LinkMode.iof),
+  })
+  const t2 = container.i18next.getFixedT(subordinate.locale, 'meetSubordinate')
+  const messageSubordinate = t2('messageSubordinate', {
+    subordinate: link(subordinate, LinkMode.i),
+    foreman: link(foreman, LinkMode.iof),
+  })
+
   // ожидаю когда можно будет пригласить заверяемого
   await friends([subordinate], {wait: true}, async () => {
 
@@ -22,19 +33,11 @@ export default async function (subordinate: User, foreman: User): Promise<void> 
 
     // объясняю что к чему
     await sendToGroupChat(foreman.tenChat, {
-      message: `
-      $t Здарова, десятка!
-      ${link(foreman,)} принял предложение быть старшиной.
-      
-      Приветствуйте нового друга! 
-      Добавляю его в ваш чат. 
-      Его зовут ${link(subordinate, LinkMode.iof)}.`
+      message: messageTen
     })
 
     await sendToGroupChat(foreman.tenChat, {
-      message: `
-      ${link(subordinate, LinkMode.i)}, это чат твоей новой десятки. 
-      Старшина десятки ${link(foreman,)}.`
+      message: messageSubordinate
     })
   })
 }

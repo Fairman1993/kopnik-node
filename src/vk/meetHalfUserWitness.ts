@@ -22,12 +22,13 @@ export default async function (halfUser: User, witness: User): Promise<Chat> {
   // await friends([halfUser, halfUser.witness], {wait: true}, async () => {
 
   // свожу в чате с заверителем
-  result = await meet(container.i18next.t('meetHalfUserWitness:title', {halfUser}),
+  const t= container.i18next.getFixedT(halfUser.locale, 'meetHalfUserWitness')
+  result = await meet(t('title', {halfUser}),
     [halfUser, halfUser.witness,],
     {
       chat: halfUser.witnessChat,
       data: {
-        message: container.i18next.t('meetHalfUserWitness:message', {halfUserLink: link(halfUser, LinkMode.i)})
+        message: t('message', {halfUser: link(halfUser, LinkMode.i)})
       }
     })
 

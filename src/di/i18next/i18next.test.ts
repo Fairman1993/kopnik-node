@@ -12,8 +12,8 @@ describe('i18next', () => {
     i18next= container.i18next
   })
   it('meetHalfUserWitness', async () => {
-    expect(i18next.t('meetHalfUserWitness:message', {halfUserLink: link(testUser())})).toContain(testUser().firstName,)
-    expect(i18next.t('meetHalfUserWitness:message', {halfUserLink: link(testUser())})).toContain('я создал этот чат для того',)
+    expect(i18next.t('meetHalfUserWitness:message', {halfUser: link(testUser())})).toContain(testUser().firstName,)
+    expect(i18next.t('meetHalfUserWitness:message', {halfUser: link(testUser())})).toContain('я создал этот чат для того',)
   })
   it.skip('key1.key2', async () => {
     expect(i18next.t('witness:key1.key2')).toBe(123,)

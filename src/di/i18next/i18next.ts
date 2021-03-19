@@ -19,7 +19,7 @@ container.bind<I18NextProvider>(TYPES.i18NextProvider).toProvider<typeof i18next
         supportedLngs: ['ru', 'en', 'sk', 'pl', 'de',],
         nonExplicitSupportedLngs: true,
         fallbackLng: 'ru',
-        ns: ['witness','meetHalfUserWitness','informHalfUser'],
+        ns: ['witness', 'meetHalfUserWitness', 'informHalfUser', 'informHalfForeman', 'informHalfForemanBad', 'informHalfSubordinateBad', 'kickSubordinate', 'meetForeman', 'meetKopa', 'meetSubordinate',],
         // defaultNS: 'main',
         // debug: true,
       })
