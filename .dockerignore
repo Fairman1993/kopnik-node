@@ -1,2 +1,27 @@
-/node_modules
-/data
+# /.docker
+# ./.docker
+# .docker
+# .git
+# .github
+#
+# /.idea
+# /.run
+# /doc
+#
+# /logs/*.log
+#
+# /node_modules
+# .env
+# .env.*
+#
+# vksession
+
+/*
+!/logs
+/logs/*.log
+
+!/node_modules
+!/src
+!/ormconfig.ts
+!/package.json
+!/tsconfig.json
