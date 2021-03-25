@@ -19,33 +19,35 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       # prepare .env file
+      - run: curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      - run: chmod +x /usr/local/bin/docker-compose
+      - run: docker-compose --version
       - run: cp default.env .env
       - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
       - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
       - run: sed -i 's/COOKIE_SECRET=/COOKIE_SECRET=1234/g' .env
-
       - run: docker-compose up -d db
       - run: npm i
-      - run: npm run typeorm:migration:run
-      - run: npm test
+#      - run: npm run typeorm:migration:run
+#      - run: npm run test
 
-  build:
-    name: build
-    if: github.ref == 'refs/heads/main'
-    needs:
-      - test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+#  build:
+#    name: build
+#    if: github.ref == 'refs/heads/main'
+#    needs:
+#      - test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
 
-      - run: docker build --no-cache -t kopnikorg/kopnik-node:latest ./.docker/app/
+      - run: npm run docker:build
       - run: docker login -u alexey2baranov -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker push kopnikorg/kopnik-node:latest
+      - run: npm run docker:push
 
   deploy:
     name: deploy
     needs:
-      - build
+      - test
     runs-on: ubuntu-latest
     steps:
       - name: ssh
