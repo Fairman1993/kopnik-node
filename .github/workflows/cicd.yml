@@ -18,10 +18,14 @@ jobs:
           node-version: 15.0.1
           registry-url: https://registry.npmjs.org
 
+      - name: install docker-compose
+        if: ${{ env.ACT }}
+        run: |
+          curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
       # prepare .env file
-      - run: curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-      - run: chmod +x /usr/local/bin/docker-compose
-      - run: docker-compose --version
       - run: cp default.env .env
       - run: sed -i 's/VK_CLIENT_SECRET=/VK_CLIENT_SECRET=${{ secrets.VK_CLIENT_SECRET }}/g' .env
       - run: sed -i 's/VK_SVETOSLAV_TOKEN=/VK_SVETOSLAV_TOKEN=${{ secrets.VK_SVETOSLAV_TOKEN }}/g' .env
