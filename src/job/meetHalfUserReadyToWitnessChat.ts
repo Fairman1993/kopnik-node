@@ -34,7 +34,7 @@ export default async function (): Promise<User[]> {
   }
 
   for (let eachHalfUser of result) {
-    eachHalfUser.witnessChat = await meetHalfUserWitness(eachHalfUser, eachHalfUser.witness)
+    eachHalfUser.witnessChat = await meetHalfUserWitness(eachHalfUser, eachHalfUser.witness, StatusEnum.New, [])
     await getManager().update(User, eachHalfUser.id, {witnessChat: eachHalfUser.witnessChat})
   }
   return result

@@ -24,6 +24,8 @@ export default async function (req: Request, res: Response) {
     const user = context.user
     const {em} = getContext()
 
+    const prevStatus= user.status
+
     merge(user, {
       firstName: body.firstName,
       lastName: body.lastName,
@@ -42,7 +44,7 @@ export default async function (req: Request, res: Response) {
     // если чат уже создан, значит его использую для сведения с заверителем
     // иначе чат будет создан и сведение будет сделано в отдельной службе src/job/meetHalfUserReadyToWitnessChat.ts
     if (user.witnessChat?.id) {
-      await meetHalfUserWitness(user, user.witness)
+      await meetHalfUserWitness(user, user.witness, prevStatus, body.changesetTranslated)
     }
 
     res.json(response({

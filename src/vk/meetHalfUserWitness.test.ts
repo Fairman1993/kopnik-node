@@ -3,6 +3,8 @@ import {VK} from "vk-io";
 import meetHalfUserWitness from "@/vk/meetHalfUserWitness";
 import testUser from "@entity/user/test-utils/testUser";
 import Chat from "@entity/Chat.entity";
+import StatusEnum from "@entity/user/StatusEnum";
+import konaz from "@entity/user/konaz";
 
 describe('meetHalfUserWitness', () => {
   let vk: VK
@@ -17,10 +19,23 @@ describe('meetHalfUserWitness', () => {
     (vk.api.messages.send as jest.Mock).mockClear()
   })
 
-  it('first time (new chat)', async () => {
-    const result = await meetHalfUserWitness(testUser({witness_id: 1234}), testUser())
+  it('status=New', async () => {
+    const result = await meetHalfUserWitness(testUser({witness_id: 1234}), konaz(), StatusEnum.New, ['Имя', `Фамилия`])
     expect(result).toBeInstanceOf(Chat)
-    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('Борода')
+    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(testUser().firstName)
+    // expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(konaz().firstName)
+    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('регистрац')
+  })
+  it('status=Pending', async () => {
+    const result = await meetHalfUserWitness(testUser({witness_id: 1234}), konaz(), StatusEnum.Pending, ['Имя', `Фамилия`])
+    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(testUser().firstName)
+    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('славяне')
+  })
+  it('status=Declined', async () => {
+    const result = await meetHalfUserWitness(testUser({witness_id: 1234}), konaz(), StatusEnum.Declined, ['Имя', `Фамилия`])
+    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(testUser().firstName)
+    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(konaz().firstName)
+    expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('изменения')
   })
 })
 

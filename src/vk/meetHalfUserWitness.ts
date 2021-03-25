@@ -4,12 +4,12 @@ import {basename} from "path";
 import meet from "@/vk/meet";
 import Chat from "@entity/Chat.entity";
 import KError from "@/error/KError";
-import friends from "@/vk/utils/friends";
 import link from "@/vk/utils/link";
 import LinkMode from "@/vk/utils/LinkMode";
-import sendToGroupChat from "@/vk/utils/sendToGroupChat";
+import StatusEnum from "@entity/user/StatusEnum";
+import list from "@/vk/utils/list";
 
-export default async function (halfUser: User, witness: User): Promise<Chat> {
+export default async function (halfUser: User, witness: User, prevStatus: StatusEnum, changesetTranslated:string[]): Promise<Chat> {
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
   let result: Chat
@@ -22,13 +22,26 @@ export default async function (halfUser: User, witness: User): Promise<Chat> {
   // await friends([halfUser, halfUser.witness], {wait: true}, async () => {
 
   // свожу в чате с заверителем
+  let messageKey
+  switch(prevStatus){
+    case StatusEnum.New:
+      messageKey= 'messageNew'
+      break
+    case StatusEnum.Pending:
+      messageKey='messagePending'
+      break
+    default:
+      messageKey='repeat'
+      break
+  }
+
   const t= container.i18next.getFixedT(halfUser.locale, 'meetHalfUserWitness')
-  result = await meet(t('title', {halfUser}),
-    [halfUser, halfUser.witness,],
+  result = await meet(t('title', {halfUser:halfUser.iof}),
+    [halfUser, witness,],
     {
       chat: halfUser.witnessChat,
       data: {
-        message: t('message', {halfUser: link(halfUser, LinkMode.i)})
+        message: t(messageKey, {halfUser: link(halfUser, LinkMode.i), witness: link(witness, LinkMode.i), changeset: list(changesetTranslated)})
       }
     })
 
