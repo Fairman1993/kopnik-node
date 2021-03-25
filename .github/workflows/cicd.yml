@@ -28,8 +28,8 @@ jobs:
       - run: sed -i 's/COOKIE_SECRET=/COOKIE_SECRET=1234/g' .env
       - run: docker-compose up -d db
       - run: npm i
-#      - run: npm run typeorm:migration:run
-#      - run: npm run test
+      - run: npm run typeorm:migration:run
+      - run: npm run test
 
 #  build:
 #    name: build
