@@ -16,6 +16,7 @@ export default function (user: User, data: DeepPartial<User> & { [key: string]: 
   user.status = data.status ?? user.status
   user.locale = data.locale ?? user.locale
   user.isWitness = data.isWitness ?? user.isWitness
+  user.witnessRadius= data.witnessRadius
   user.role = data.role ?? user.role
   user.rank = data.rank ?? user.rank
   user.mid = data.mid ?? user.mid

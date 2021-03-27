@@ -91,6 +91,8 @@ export class User {
   @Column({default: false})
   isWitness: boolean
 
+  @Column({type: 'float', nullable: true,})
+  witnessRadius: number
 
   @Column(type => Chat,)
   witnessChat: Chat

@@ -11,6 +11,7 @@ import StatusEnum from "@entity/user/StatusEnum";
 import meetHalfUserWitness from "@/vk/meetHalfUserWitness";
 import getContext from "@/context/getContext";
 import transaction from "@/transaction/transaction";
+import findWitness from "@/findWitness/findWitness";
 
 
 /**
@@ -37,7 +38,7 @@ export default async function (req: Request, res: Response) {
       role: body.role,
       status: StatusEnum.Pending,
     })
-    user.witness = await em.findOneOrFail(User, 1)
+    user.witness = await findWitness(user)
     // сохраняю переданные данные (пока без чата заверения, который обновится асинхронно ниже)
     await em.save(user)
 

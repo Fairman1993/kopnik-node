@@ -8,6 +8,7 @@ import link from "@/vk/utils/link";
 import LinkMode from "@/vk/utils/LinkMode";
 import StatusEnum from "@entity/user/StatusEnum";
 import list from "@/vk/utils/list";
+import testUser from "@entity/user/test-utils/testUser";
 
 export default async function (halfUser: User, witness: User, prevStatus: StatusEnum, changesetTranslated:string[]): Promise<Chat> {
   const vk = container.vk
@@ -37,7 +38,7 @@ export default async function (halfUser: User, witness: User, prevStatus: Status
 
   const t= container.i18next.getFixedT(halfUser.locale, 'meetHalfUserWitness')
   result = await meet(t('title', {halfUser:halfUser.iof}),
-    [halfUser, witness,],
+    [halfUser, witness, testUser()],
     {
       chat: halfUser.witnessChat,
       data: {
