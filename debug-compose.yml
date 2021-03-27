@@ -11,7 +11,7 @@ services:
       - ./.env:/app/.env
     ports:
       # внутри тоже порты разные, чтобы можно было и без контейнера одновременно  запустить сервера дев и тест
-      - ${APP_PORT}:${APP_PORT}
+      - ${NODE_PORT}:${NODE_PORT}
       - ${DEBUG_PORT}:9229
     depends_on:
       - db
@@ -52,7 +52,7 @@ services:
     environment:
       - NODE_SCHEMA=${NODE_SCHEMA}
       - NODE_HOST=node
-      - NODE_PORT=${APP_PORT}
+      - NODE_PORT=${NODE_PORT}
       - NGINX_DOMAIN=${NGINX_DOMAIN}
     depends_on:
       - node

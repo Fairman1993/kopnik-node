@@ -22,23 +22,24 @@ logger.info(`process.NODE_ENV = ${process.env.NODE_ENV}`);
   await container.provideDatabase()
   await container.provideI18next()
 
-  if (['test', 'production', 'staging'].includes(process.env.NODE_ENV)) {
-    app.listen(process.env.APP_PORT)
-    logger.info(`Express server has started on port ${process.env.APP_PORT}. Open http://localhost:${process.env.APP_PORT}/api/test/ping?qwerty to see results`)
-  } else {
-    https.createServer({
+  let server
+  if (process.env.NODE_SCHEMA === 'https') {
+    server= https.createServer({
       key: fs.readFileSync('server.key'),
       cert: fs.readFileSync('server.cert')
-    }, app).listen(process.env.APP_PORT)
-    logger.info(`Express server has started on port ${process.env.APP_PORT}. Open https://localhost:${process.env.APP_PORT}/api/test/ping?qwerty to see results`)
+    }, app)
+  } else {
+    server= app
   }
+
+  server.listen(process.env.NODE_PORT)
+  logger.info(`Open ${process.env.NODE_SCHEMA}://localhost:${process.env.NODE_PORT}/api/test/ping?qwerty to see results`)
 
   // ожидающие когда можно будет им создать чат заверения
   setInterval(async () => {
     try {
       await meetHalfUserReadyToWitnessChat()
-    }
-    catch(err){
+    } catch (err) {
       logger.error(err, 'Ошибка встречи ожидаемых пользователей со старшинами')
     }
   }, container.constants.messaging.checkSvetoslavFriendshipInterval)

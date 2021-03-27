@@ -1,7 +1,7 @@
 const envs = [
   'NODE_ENV',
 
-  'APP_PORT',
+  'NODE_PORT',
 
   'DB_HOST',
   'DB_DB',
