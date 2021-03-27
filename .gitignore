@@ -15,3 +15,4 @@ vksession
 /var-wwww-certbot
 /data
 /etc-letsencrypt
+/act.secrets
