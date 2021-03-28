@@ -1,4 +1,3 @@
-import waitForExpect from 'wait-for-expect'
 import container from "@/di/container"
 import {EntityManager, getManager} from "typeorm"
 import {User} from "@entity/user/User.entity"
@@ -6,10 +5,11 @@ import createTestUser from "@entity/user/test-utils/createTestUser";
 import request from "supertest";
 import app from "@/app";
 import plain from "@entity/user/plain";
-import {API, VK} from "vk-io";
+import {VK} from "vk-io";
 import FriendStatusEnum from "@/di/vk-io/FriendStatusEnum";
 import FriendsFriendStatusEx from "@/vk/utils/FriendsFriendStatusEx";
 import meetHalfUserReadyToWitnessChat from "@/job/meetHalfUserReadyToWitnessChat";
+import StatusEnum from "@entity/user/StatusEnum";
 
 describe('updateProfile', () => {
   let witness: User,
@@ -33,12 +33,14 @@ describe('updateProfile', () => {
   })
 
   it('HeSendRequest', async () => {
-    halfUser = await createTestUser('main',)
+    halfUser = await createTestUser('main',{
+      status: StatusEnum.New,
+    })
 
     const res = await request(app)
       .post('/api/users/updateProfile')
       .set('T-Authorization', halfUser.mid.toString())
-      .send(plain(halfUser));
+      .send({...plain(halfUser), changeset:[], changesetTranslated:[]});
 
     expect(res.status).toEqual(200);
 
@@ -62,12 +64,12 @@ describe('updateProfile', () => {
     expect((vk.api.messages.send as jest.Mock).mock.calls).toHaveLength(1)
   })
 
-  it('friends', async () => {
+  it.only('friends', async () => {
     halfUser = await createTestUser('halfUser',)
     const res = await request(app)
       .post('/api/users/updateProfile')
       .set('T-Authorization', halfUser.mid.toString())
-      .send(plain(halfUser))
+      .send({...plain(halfUser), changeset:[], changesetTranslated:[]})
 
     expect(res.status).toEqual(200)
     // отправилось сообщение в чат
