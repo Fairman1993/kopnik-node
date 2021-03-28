@@ -15,7 +15,6 @@ import welcome from "@/api/middleware/welcome"
 import ping from "@api/test/ping";
 import error from "@api/test/error";
 import user from "@api/middleware/user/user";
-import create from "@api/middleware/newUser_need_remove";
 import get from "@api/users/get";
 import login from "@api/test/login_need_remove";
 import on_createUser from "@api/test/on_createUser";
@@ -34,16 +33,14 @@ import getForemanRequests from "@api/users/getForemanRequests";
 import resolveForemanRequest from "@api/users/resolveForemanRequest";
 import resetForeman from "@api/users/resetForeman";
 import getSubordinates from "@api/users/getSubordinates";
-import getForeman from "@api/users/getForeman";
 import StatusEnum from "@entity/user/StatusEnum";
 import RoleEnum from "@entity/user/RoleEnum";
-import {getManager, Transaction} from "typeorm";
 import inviteKopa from "@api/users/inviteKopa";
 import container from "@/di/container";
-import {User} from "@entity/user/User.entity";
 import passportCallback from "@api/middleware/passport/passportCallback";
 import logout from "@api/users/logout";
 import req_id from "@api/middleware/req_id"
+import getWitnessesInsideSquare from "@api/users/getWitnessesInsideSquare";
 
 const app = express()
 
@@ -113,6 +110,7 @@ app.get('/api/users/get', authorize(), get)
 app.get('/api/users/getEx', authorize(), getEx)
 app.get('/api/users/getWitnessRequests', authorize(), getWitnessRequests)
 app.get('/api/users/getTopInsideSquare', authorize(), getTopInsideSquare)
+app.get('/api/users/getWitnessesInsideSquare', authorize({statuses:[StatusEnum.Confirmed]}), getWitnessesInsideSquare)
 app.post('/api/users/updateProfile', authorize(), updateProfile)
 app.post('/api/users/updateLocale', authorize(), updateLocale)
 app.post('/api/users/resolveWitnessRequest', authorize(), resolveWitnessRequest)

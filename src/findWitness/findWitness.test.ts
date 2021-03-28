@@ -7,13 +7,14 @@ import findWitness from "@/findWitness/findWitness";
 import testUserFactory from "@entity/user/test-utils/testUserFactory";
 
 describe('User', () => {
+  let globalWitness,
+    localWitness
+
   beforeEach(async () => {
     await container.provideDatabase()
-  })
 
-  it('find with smallest radius', async () => {
     // создал с большим радиусом близко
-    const regionWitness = await createTestUser('regionWitness', {
+    globalWitness = await createTestUser('regionWitness', {
       isWitness: true,
       witnessRadius: 100,
       location: {
@@ -23,7 +24,7 @@ describe('User', () => {
     })
 
     // создал с малым радиусом подальше
-    const cityWitness = await createTestUser('cityWitness', {
+    localWitness = await createTestUser('regionWitness', {
       isWitness: true,
       witnessRadius: 10,
       location: {
@@ -31,7 +32,9 @@ describe('User', () => {
         lng: 77.001,
       },
     })
+  })
 
+  it('find local witness', async () => {
     const witness = await findWitness(testUserFactory('halfUser', {
       id: -1,
       location: {
@@ -40,15 +43,26 @@ describe('User', () => {
       },
     }))
 
-    expect(witness.latitude).toBe(cityWitness.latitude)
-    expect(witness.longitude).toBe(cityWitness.longitude)
+    expect(witness.latitude).toBe(localWitness.latitude)
+    expect(witness.longitude).toBe(localWitness.longitude)
   })
-  it('fallback user=1', async () => {
+  it('fallback user1 when no witness found', async () => {
     const witness = await findWitness(testUserFactory('halfUser', {
       id: -1,
       location: {
         lat: -77,
         lng: -77,
+      },
+    }))
+
+    expect(witness.id).toBe(1)
+  })
+  it('self witness user1', async () => {
+    const witness = await findWitness(testUserFactory('halfUser', {
+      id: 1,
+      location: {
+        lat: localWitness.latitude,
+        lng: localWitness.longitude,
       },
     }))
 

@@ -17,6 +17,7 @@ export default function (user: User, options: { isCurrentUser?: boolean, isCurre
     birthYear: user.birthYear,
     role: user.role,
     isWitness: user.isWitness,
+    witnessRadius: user.witnessRadius,
     status: user.status,
     rank: user.rank,
 
