@@ -1,4 +1,5 @@
 import Logger, {LoggerOptions} from "bunyan";
+import container from "@/di/container";
 
 
 export default class ConsoleStream {
@@ -9,8 +10,11 @@ export default class ConsoleStream {
     } else {
       // почему-то не заменяет селекты после первого
       // const msg = rec.msg.startsWith('SELECT') ? rec.msg.replaceAll(/^SELECT([^]+?)FROM/g, 'SELECT ... \nFROM') : rec.msg
-      const msg = rec.msg.startsWith('SELECT') ? rec.msg.substr(0, 50) : rec.msg
-      console.log('\x1b[33m%s\x1b[0m', rec.name, "\x1b[36m", '[' + Logger.nameFromLevel[rec.level] + ']', "\x1b[32m", `(${rec.req_id ||''})`, "\x1b[0m", msg,)
+      let msg = rec.msg
+      if (container.constants.logger.console.shortSQL && msg.match(/^select|insert/i)) {
+        msg = msg.replace(/^((.+\n){20})(.|\s)*/, '$1')
+      }
+      console.log('\x1b[33m%s\x1b[0m', rec.name, "\x1b[36m", '[' + Logger.nameFromLevel[rec.level] + ']', "\x1b[32m", `(${rec.req_id || ''})`, "\x1b[0m", msg,)
     }
   }
 }

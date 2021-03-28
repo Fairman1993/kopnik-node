@@ -1,6 +1,6 @@
 export interface IConstants {
-  auth:{
-    callbackURL:string,
+  auth: {
+    callbackURL: string,
     successRedirect: string,
     failureRedirect: string,
   },
@@ -8,18 +8,22 @@ export interface IConstants {
     logging?: boolean,
     synchronize?: boolean,
   },
-  messaging:{
-    waitFriendDelay:number,
+  messaging: {
+    waitFriendDelay: number,
     baseClientUrl: string,
     checkSvetoslavFriendshipInterval: number,
+  },
+  logger: {
+    console:{
+      shortSQL: boolean
+    }
   }
-
 }
 
 const constants = {
   development: {
-    auth:{
-      callbackURL: 'https://localhost:8081/auth/vkontakte/callback',
+    auth: {
+      callbackURL: 'http://localhost:8081/auth/vkontakte/callback',
       successRedirect: 'http://localhost:8080',
       failureRedirect: 'http://localhost:8080/thanks'
     },
@@ -31,10 +35,15 @@ const constants = {
       waitFriendDelay: 15000,
       baseClientUrl: 'https://localhost:8080/',
       checkSvetoslavFriendshipInterval: 60000,
+    },
+    logger: {
+      console: {
+        shortSQL: true
+      }
     }
   },
   test: {
-    auth:{
+    auth: {
       callbackURL: 'https://localhost:8081/auth/vkontakte/callback',
       successRedirect: 'http://localhost:8080',
       failureRedirect: 'http://localhost:8080/thanks'
@@ -47,10 +56,15 @@ const constants = {
       waitFriendDelay: 1,
       baseClientUrl: 'https://localhost:8080/',
       checkSvetoslavFriendshipInterval: 6000000,
+    },
+    logger: {
+      console: {
+        shortSQL: true
+      }
     }
   },
   production: {
-    auth:{
+    auth: {
       callbackURL: 'https://kopnik.org/auth/vkontakte/callback',
       successRedirect: 'https://kopnik.org',
       failureRedirect: 'https://kopnik.org'
@@ -62,7 +76,12 @@ const constants = {
     messaging: {
       waitFriendDelay: 60000,
       baseClientUrl: 'https://kopnik.org/',
-      checkSvetoslavFriendshipInterval: 15*60*1000,  //15 минут
+      checkSvetoslavFriendshipInterval: 15 * 60 * 1000,  //15 минут
+    },
+    logger: {
+      console: {
+        shortSQL: true
+      }
     }
   },
 } as { [key: string]: IConstants }
