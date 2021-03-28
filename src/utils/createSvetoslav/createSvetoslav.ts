@@ -14,6 +14,8 @@ export default async function () {
 
     const {user} = getContext()
     user.status= StatusEnum.Confirmed
+    user.latitude=58.187
+    user.longitude=68.275
     await getManager().save(user)
 
     await container.db.close()

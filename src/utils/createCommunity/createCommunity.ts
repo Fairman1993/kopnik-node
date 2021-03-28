@@ -11,6 +11,8 @@ const K_DISTANCE = 0.33
 
 export default async function createCommunity({location, size, complexity, grandForeman}) : Promise<User>{
   // create foreman
+  const isWitness= complexity>2?true:_.random(Math.pow(10, 3-complexity))===1
+
   const foreman = await createTestUser(null, {
     firstName: dic.name[_.random(dic.name.length - 1)],
     lastName: dic.lastName[_.random(dic.lastName.length - 1)],
@@ -19,6 +21,8 @@ export default async function createCommunity({location, size, complexity, grand
     photo: avatars[_.random(avatars.length - 1)],
     foreman_id: grandForeman?.id,
     // mid: mids[_.random(mids.length - 1)]
+    isWitness,
+    witnessRadius: isWitness?size*200:null,
   })
 
   // create forks

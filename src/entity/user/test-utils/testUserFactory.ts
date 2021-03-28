@@ -4,7 +4,6 @@ import RoleEnum from "@entity/user/RoleEnum";
 import LocaleEnum from "@entity/LocaleEnum";
 import merge from "@entity/user/merge";
 import Chat from "@entity/Chat.entity";
-import {getManager} from "typeorm";
 
 export default function (prefix: string = new Date().toString(), fields: Partial<User> & { [key: string]: any } = {}) {
   const now = new Date()
@@ -14,7 +13,7 @@ export default function (prefix: string = new Date().toString(), fields: Partial
 
   const result = new User()
 
-  if (fields.witness_id) {
+  if (fields.witness_id || fields.status!==StatusEnum.New) {
     result.witnessChat = new Chat(new Date().getTime(), 'https://witnessChat')
   }
 
