@@ -16,3 +16,5 @@ vksession
 /data
 /etc-letsencrypt
 /act.secrets
+
+/src/witness/setWitness.sql
