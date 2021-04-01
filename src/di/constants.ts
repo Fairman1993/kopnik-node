@@ -33,7 +33,7 @@ const constants = {
     },
     messaging: {
       waitFriendDelay: 15000,
-      baseClientUrl: 'https://localhost:8080/',
+      baseClientUrl: 'http://localhost:8080/',
       checkSvetoslavFriendshipInterval: 60000,
     },
     logger: {
