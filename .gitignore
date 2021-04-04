@@ -17,4 +17,4 @@ vksession
 /etc-letsencrypt
 /act.secrets
 
-/src/witness/setWitness.sql
+/src/job/resetWitnesses/setWitness.sql
