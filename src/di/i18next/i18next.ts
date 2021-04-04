@@ -13,7 +13,7 @@ container.bind<I18NextProvider>(TYPES.i18NextProvider).toProvider<typeof i18next
     await i18next.use(Backend)
       .init({
         backend: {
-          loadPath: 'src/locales/{{lng}}/{{ns}}.json5'
+          loadPath: 'src/locales/{{lng}}/{{ns}}.json'
         },
         lng: 'ru',
         supportedLngs: ['ru', 'en', 'sk', 'pl', 'de',],
