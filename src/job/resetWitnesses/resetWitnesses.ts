@@ -6,9 +6,11 @@ import addChatUser from "@/vk/utils/addChatUser";
 import sendToGroupChat from "@/vk/utils/sendToGroupChat";
 import link from "@/vk/utils/link";
 import LinkMode from "@/vk/utils/LinkMode";
+import transaction from "@/transaction/transaction";
 
 /**
  * Перераспределяет заявки между заверителями с учетом зоны заверения
+ * И возвращает перераспределенных полупользователей
  */
 export default async function (halfUsers?: User[]): Promise<User[]> {
   const result: User[] = []
@@ -17,7 +19,6 @@ export default async function (halfUsers?: User[]): Promise<User[]> {
     halfUsers = await getRepository(User).find({
         where: {
           status: StatusEnum.Pending,
-          id: 1,
         },
         // take: 25,
         relations: ['witness']
@@ -29,20 +30,22 @@ export default async function (halfUsers?: User[]): Promise<User[]> {
     if (!eachHalfUser.witnessChat?.id) {
       continue
     }
-    let eachCorrectWitness = await findWitness(eachHalfUser)
-    if (eachCorrectWitness.id != eachHalfUser.witness.id) {
-      eachHalfUser.witness = eachCorrectWitness
-      await getRepository(User).save(eachHalfUser)
-      await addChatUser(eachHalfUser.witnessChat, eachCorrectWitness)
-      await sendToGroupChat(eachHalfUser.witnessChat, {
-        message: `Здарова славяне!
+    await transaction( async(em)=> {
+      let eachCorrectWitness = await findWitness(eachHalfUser)
+      if (eachCorrectWitness.id != eachHalfUser.witness.id) {
+        eachHalfUser.witness = eachCorrectWitness
+        await em.save(User, eachHalfUser)
+        await addChatUser(eachHalfUser.witnessChat, eachCorrectWitness)
+        await sendToGroupChat(eachHalfUser.witnessChat, {
+          message: `Здарова славяне!
         
-        ${link(eachHalfUser, LinkMode.i)}, тебе назначен новый заверитель ${link(eachHalfUser.witness, LinkMode.i)}
-        
-        Во благо!`
-      })
-      result.push(eachHalfUser)
-    }
+          ${link(eachHalfUser, LinkMode.i)}, тебе назначен новый заверитель ${link(eachHalfUser.witness, LinkMode.i)}
+          
+          Во благо!`
+        })
+      }
+    })
+    result.push(eachHalfUser)
   }
 
   return result

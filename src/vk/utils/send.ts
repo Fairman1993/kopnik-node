@@ -16,8 +16,6 @@ export default async function (peer_id: number, data: MessagesSendParams): Promi
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
 
-  const trimmedMessage = trim(data.message)
-
   const messages = split(data.message)
   for (let eachMessage of messages) {
     logger.info({

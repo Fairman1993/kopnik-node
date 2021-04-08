@@ -11,5 +11,7 @@ import * as assert from "assert";
 // https://vk.com/dev/messages.send
 export default async function (chat: Chat, data: MessagesSendParams): Promise<void> {
   assert.notEqual(chat.id, null)
-  await send(chat.id+ 2000000000, data)
+
+  // иногда чаты пользователей загружаются как строки (скорее всего когда более одного пользователя за раз)
+  await send(Number.parseInt(chat.id as any)+ 2000000000, data)
 }
