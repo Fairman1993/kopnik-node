@@ -35,7 +35,7 @@ export default async function (halfUsers?: User[]): Promise<User[]> {
       if (eachCorrectWitness.id != eachHalfUser.witness.id) {
         eachHalfUser.witness = eachCorrectWitness
         await em.save(User, eachHalfUser)
-        await addChatUser(eachHalfUser.witnessChat, eachCorrectWitness)
+        await addChatUser(eachHalfUser.witnessChat, eachCorrectWitness, {visibleMessagesCount: 100})
         await sendToGroupChat(eachHalfUser.witnessChat, {
           message: `Здарова славяне!
         
