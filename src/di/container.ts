@@ -5,7 +5,6 @@ import Logger from "bunyan";
 import {PostgresConnectionOptions} from "typeorm/driver/postgres/PostgresConnectionOptions";
 import constants, {IConstants} from "@/di/constants";
 import IDbProvider from "@/di/db/IDbProvider";
-import IVKProvider from "@/di/vk-io/IVKProvider";
 import {VK} from "vk-io";
 
 export class CustomContainer extends Container {
@@ -34,10 +33,6 @@ export class CustomContainer extends Container {
 
   get provideI18next(): I18NextProvider {
     return this.get<I18NextProvider>(TYPES.i18NextProvider)
-  }
-
-  get provideVk(): IVKProvider {
-    return this.get<IVKProvider>(TYPES.vkProvider)
   }
 
   get vk(): VK {
