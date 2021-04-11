@@ -1,12 +1,16 @@
 import {User} from "@entity/user/User.entity";
+import plainRelation from "@entity/user/plainRelation";
+import IUserPlain from "@entity/user/IUserPlain";
+import plainRelations from "@entity/user/plainRelations";
+
 
 /**
  *
  * @param user
  * @param options
  */
-export default function (user: User, options: { isCurrentUser?: boolean, isCurrentUserForeman?: boolean, isCurrentUserSubordinate?: boolean, isCurrentUserWitnessRequest?: boolean, isCurrentUserSubordinateRequest?: boolean } = {}) {
-  const result = {
+export default function plain(user: User, options: { isCurrentUser?: boolean, isCurrentUserForeman?: boolean, isCurrentUserSubordinate?: boolean, isCurrentUserWitnessRequest?: boolean, isCurrentUserSubordinateRequest?: boolean } = {}): IUserPlain {
+  const result: IUserPlain = {
     id: user.id,
     locale: user.locale,
     firstName: user.firstName,
@@ -20,14 +24,15 @@ export default function (user: User, options: { isCurrentUser?: boolean, isCurre
     witnessRadius: user.witnessRadius,
     status: user.status,
     rank: user.rank,
+    domain: user.domain,
 
     passport: user.passport,
-    witness_id: user.witness?.id || null,
-    foremanRequest_id: user.foremanRequest?.id || null,
-    foreman_id: user.foreman?.id || null,
-    subordinates: user.subordinates?.map(eachSubordinate => eachSubordinate.id),
-    foremanRequests: user.foremanRequests?.map(eachSubordinateRequest => eachSubordinateRequest.id),
-    witnessRequests: user.witnessRequests?.map(eachWitnessRequest => eachWitnessRequest.id),
+    witness: plainRelation(user.witness),
+    foremanRequest: plainRelation(user.foremanRequest),
+    foreman: plainRelation(user.foreman),
+    subordinates: plainRelations(user.subordinates),
+    foremanRequests: plainRelations(user.foremanRequests),
+    witnessRequests: plainRelations(user.witnessRequests),
 
     witnessChatInviteLink: user.witnessChat?.inviteLink,
     tenChatInviteLink: user.tenChat?.inviteLink,
@@ -39,11 +44,11 @@ export default function (user: User, options: { isCurrentUser?: boolean, isCurre
   }
   // witness
   if (!options.isCurrentUser && !options.isCurrentUserWitnessRequest) {
-    delete result.witness_id
+    delete result.witness
   }
   // foremanRequest
   if (!options.isCurrentUser && !options.isCurrentUserSubordinateRequest) {
-    delete result.foremanRequest_id
+    delete result.foremanRequest
   }
   // foremanRequests
   if (!options.isCurrentUser) {

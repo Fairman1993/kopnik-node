@@ -43,10 +43,12 @@ export default async function (halfUsers?: User[]): Promise<User[]> {
           
           Во благо!`
         })
+        result.push(eachHalfUser)
+        if (process.env.NODE_ENV!=='test') {
+          await new Promise(res => setTimeout(res, 60000))
+        }
       }
     })
-    result.push(eachHalfUser)
   }
-
   return result
 }
