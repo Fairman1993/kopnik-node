@@ -5,10 +5,7 @@ import {basename} from "path";
 import context from "@/context/context";
 import {getRepository} from "typeorm";
 import {User} from "@entity/user/User.entity";
-import plain from "@entity/user/plain";
 import response from "@api/response";
-import plainForCurrentUser from "@entity/user/plainForCurrentUser";
-import merge from "@entity/user/merge";
 
 
 /**

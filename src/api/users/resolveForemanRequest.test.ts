@@ -19,7 +19,7 @@ describe('resolveForemanRequest', () => {
     em = getManager()
     halfForeman = await createTestUser('halfOldest')
     halfSubordinate = await createTestUser('halfYoungest', {
-      foremanRequest_id: halfForeman.id,
+      foremanRequest: halfForeman,
     })
     await halfForeman
   })

@@ -1,13 +1,12 @@
-import merge from "@entity/user/merge";
-import {getManager, getRepository} from "typeorm";
+import {getManager, } from "typeorm";
 import {User} from "@entity/user/User.entity";
-import userFactory from "@entity/user/test-utils/testUserFactory";
+import testUserFactory from "@entity/user/test-utils/testUserFactory";
 import context from "@/context/context";
 import Chat from "@entity/Chat.entity";
 
 
-export default async function (prefix?: string, data?: Partial<User> & { [key: string]: any }) {
-  const user = userFactory(prefix, data),
+export default async function (prefix?: string, data?: Partial<User>) {
+  const user = testUserFactory(prefix, data),
     em = context.em || getManager()
 
   await em.save(user)
@@ -26,7 +25,6 @@ export default async function (prefix?: string, data?: Partial<User> & { [key: s
         AND id <> ${user.id};
   `)
   }
-
 
   return user
 }

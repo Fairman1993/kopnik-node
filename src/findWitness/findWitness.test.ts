@@ -17,30 +17,24 @@ describe('User', () => {
     globalWitness = await createTestUser('regionWitness', {
       isWitness: true,
       witnessRadius: 100,
-      location: {
-        lat: 77.00001,
-        lng: 77.00001,
-      },
+      latitude: 77.00001,
+      longitude: 77.00001,
     })
 
     // создал с малым радиусом подальше
     localWitness = await createTestUser('regionWitness', {
       isWitness: true,
       witnessRadius: 10,
-      location: {
-        lat: 77.001,
-        lng: 77.001,
-      },
+      latitude: 77.001,
+      longitude: 77.001,
     })
   })
 
   it('find local witness', async () => {
     const witness = await findWitness(testUserFactory('halfUser', {
       id: -1,
-      location: {
-        lat: 77,
-        lng: 77,
-      },
+      latitude: 77,
+      longitude: 77,
     }))
 
     expect(witness.latitude).toBe(localWitness.latitude)
@@ -49,10 +43,8 @@ describe('User', () => {
   it('fallback user1 when no witness found', async () => {
     const witness = await findWitness(testUserFactory('halfUser', {
       id: -1,
-      location: {
-        lat: -77,
-        lng: -77,
-      },
+      latitude: -77,
+      longitude: -77,
     }))
 
     expect(witness.id).toBe(1)
@@ -60,10 +52,8 @@ describe('User', () => {
   it('self witness user1', async () => {
     const witness = await findWitness(testUserFactory('halfUser', {
       id: 1,
-      location: {
-        lat: localWitness.latitude,
-        lng: localWitness.longitude,
-      },
+      latitude: localWitness.latitude,
+      longitude: localWitness.longitude,
     }))
 
     expect(witness.id).toBe(1)

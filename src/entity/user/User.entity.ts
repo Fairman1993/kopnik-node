@@ -118,11 +118,12 @@ export class User {
     return `${this.firstName} ${this.patronymic}`
   }
 
-  constructor(init?: number | DeepPartial<User>) {
+  constructor(init?: number | Partial<User>) {
     if (typeof init === 'number') {
       this.id = init
     } else if (typeof init === 'object') {
       merge(this, init)
     }
   }
+
 }

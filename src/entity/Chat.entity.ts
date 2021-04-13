@@ -1,19 +1,6 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  Tree,
-  ManyToOne,
-  TreeParent,
-  TreeChildren,
-  OneToMany,
-  Generated, PrimaryColumn, CreateDateColumn, UpdateDateColumn, Index, DeepPartial
 } from "typeorm";
-import RoleEnum from "@entity/user/RoleEnum";
-import StatusEnum from "@entity/user/StatusEnum";
-// import {OAuth} from "@entity/user/OAuth";
-import LocaleEnum from "@entity/LocaleEnum";
-import merge from "@entity/user/merge";
 
 // import {EntityWithSequence, NextVal} from "typeorm-sequence";
 

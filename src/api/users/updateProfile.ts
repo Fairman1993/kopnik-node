@@ -3,8 +3,6 @@ import {Request, Response} from "express";
 import container from "@/di/container";
 import {basename} from "path";
 import context from "@/context/context";
-import {getManager, getRepository} from "typeorm";
-import {User} from "@entity/user/User.entity";
 import response from "@api/response";
 import merge from "@entity/user/merge";
 import StatusEnum from "@entity/user/StatusEnum";
@@ -34,7 +32,8 @@ export default async function (req: Request, res: Response) {
       locale: body.locale,
       birthYear: body.birthYear,
       passport: body.passport,
-      location: body.location,
+      latitude: body.location.lat,
+      longitude: body.location.lng,
       role: body.role,
       status: StatusEnum.Pending,
     })

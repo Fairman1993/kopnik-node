@@ -16,12 +16,10 @@ describe('getWitnessesInsideSquare', () => {
   })
 
   it('success', async () => {
-    const witness = await createTestUser('witness', {
+    const witness = await createTestUser('top', {
       isWitness: true,
-      location: {
-        lat: 50,
-        lng: 50,
-      }
+      latitude: 50,
+      longitude: 50,
     })
     // container.constants.logger.console.shortSQL= false
     const res = await request(app)

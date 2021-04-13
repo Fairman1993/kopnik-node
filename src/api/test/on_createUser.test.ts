@@ -16,9 +16,9 @@ describe('createUser', () => {
     const res2 = await request(app)
       .post('/api/test/createUser')
       .send({
-        witness_id: res.body.response,
-        foreman_id: res.body.response,
-        foremanRequest_id: res.body.response,
+        witness: res.body.response,
+        foreman: res.body.response,
+        foremanRequest: res.body.response,
       })
     expect(res2.status).toEqual(200)
     const user = await getRepository(User).findOneOrFail({

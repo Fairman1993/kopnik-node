@@ -1,10 +1,7 @@
 import container from "@/di/container"
 import {getManager, getRepository, Repository} from "typeorm"
 import {User} from "@entity/user/User.entity"
-import userFactory from "@entity/user/test-utils/testUserFactory";
 import createUser from "@entity/user/test-utils/createTestUser";
-import setUserForeman from "@entity/user/setUserForeman";
-import transaction from "@/transaction/transaction";
 
 describe.skip('eager', () => {
   let repository: Repository<User>,
@@ -24,9 +21,9 @@ describe.skip('eager', () => {
 
     //eager user
     let eager = await createUser('eager', {
-      foreman_id: foreman.id,
-      foremanRequest_id: foremanRequest.id,
-      witness_id: witness.id,
+      foreman: foreman,
+      foremanRequest: foremanRequest,
+      witness: witness,
     })
 
     // checks

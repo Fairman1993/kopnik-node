@@ -5,6 +5,7 @@ import StatusEnum from "@entity/user/StatusEnum";
 import resetWitnesses from "@/job/resetWitnesses/resetWitnesses";
 
 import findWitness from "@/findWitness/findWitness";
+import {User} from "@entity/user/User.entity";
 
 jest.mock('@/findWitness/findWitness');
 
@@ -23,7 +24,7 @@ describe('resetWitnesses', () => {
     // создаю полупользователя
     const halfUser = await createTestUser('halfUser', {
       status: StatusEnum.Pending,
-      witness_id: 1,
+      witness: new User(1),
     })
 
     // создаю пользователя, который не должен попасть

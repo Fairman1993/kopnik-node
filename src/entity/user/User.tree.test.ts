@@ -42,7 +42,7 @@ describe('tree', () => {
     await transaction(async () => {
       // create two users
       foreman = await createUser('foreman', {})
-      subordinate = await createUser('subordinate', {foreman_id: foreman.id})
+      subordinate = await createUser('subordinate', {foreman: foreman})
 
       // set foreman
       await setUserForeman(subordinate, null, getManager())
@@ -65,7 +65,7 @@ describe('tree', () => {
     await transaction(async () => {
       // create two users
       foreman = await createUser('foreman', {})
-      subordinate = await createUser('subordinate', {foreman_id: foreman.id})
+      subordinate = await createUser('subordinate', {foreman: foreman})
 
       // checks
       foreman = await repository.findOneOrFail(foreman.id, {
