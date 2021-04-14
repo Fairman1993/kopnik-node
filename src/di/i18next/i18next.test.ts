@@ -13,17 +13,17 @@ describe('i18next', () => {
   })
   it('meetHalfUserWitness', async () => {
     expect(i18next.t('meetHalfUserWitness:messageNew', {halfUser: link(testUser())})).toContain(testUser().firstName,)
-    expect(i18next.t('meetHalfUserWitness:messageNew', {halfUser: link(testUser())})).toContain('я создал этот чат для того',)
+    expect(i18next.t('meetHalfUserWitness:messageNew', {halfUser: link(testUser())})).toContain('я собрал всех здесь',)
   })
   it.skip('key1.key2', async () => {
     expect(i18next.t('witness:key1.key2')).toBe(123,)
   })
   it('getFixedT', async () => {
     const t= i18next.getFixedT('ru')
-    expect(t('meetHalfUserWitness:messageNew')).toContain('я создал этот чат для того',)
+    expect(t('meetHalfUserWitness:messageNew')).toContain('я собрал всех здесь',)
   })
   it('fallback', async () => {
     const t= i18next.getFixedT('de')
-    expect(t('meetHalfUserWitness:messageNew')).toContain('я создал этот чат для того',)
+    expect(t('meetHalfUserWitness:messageNew')).toContain('я собрал всех здесь',)
   })
 })

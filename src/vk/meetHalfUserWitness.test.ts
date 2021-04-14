@@ -21,19 +21,19 @@ describe('meetHalfUserWitness', () => {
   })
 
   it('status=New', async () => {
-    const result = await meetHalfUserWitness(testUser({witness: new User({mid: 1234})}), konaz(), StatusEnum.New, ['Имя', `Фамилия`])
+    const result = await meetHalfUserWitness(testUser({witness: new User({mid: 1234})}), konaz(), [], StatusEnum.New, ['Имя', `Фамилия`])
     expect(result).toBeInstanceOf(Chat)
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(testUser().firstName)
     // expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(konaz().firstName)
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('регистрац')
   })
   it('status=Pending', async () => {
-    const result = await meetHalfUserWitness(testUser({witness: new User({mid: 1234})}), konaz(), StatusEnum.Pending, ['Имя', `Фамилия`])
+    const result = await meetHalfUserWitness(testUser({witness: new User({mid: 1234})}), konaz(), [], StatusEnum.Pending, ['Имя', `Фамилия`])
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(testUser().firstName)
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('внес изменения в Личные данные')
   })
   it('status=Declined', async () => {
-    const result = await meetHalfUserWitness(testUser({witness: new User({mid: 1234})}), konaz(), StatusEnum.Declined, ['Имя', `Фамилия`])
+    const result = await meetHalfUserWitness(testUser({witness: new User({mid: 1234})}), konaz(), [], StatusEnum.Declined, ['Имя', `Фамилия`])
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(testUser().firstName)
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain(konaz().firstName)
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('изменения')
