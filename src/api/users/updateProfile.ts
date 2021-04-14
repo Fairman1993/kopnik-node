@@ -10,6 +10,7 @@ import meetHalfUserWitness from "@/vk/meetHalfUserWitness";
 import getContext from "@/context/getContext";
 import transaction from "@/transaction/transaction";
 import findWitness from "@/findWitness/findWitness";
+import findNeighbors from "@/findWitness/findNeighbors";
 
 
 /**
@@ -37,18 +38,25 @@ export default async function (req: Request, res: Response) {
       role: body.role,
       status: StatusEnum.Pending,
     })
-    user.witness = await findWitness(user)
-    // сохраняю переданные данные (пока без чата заверения, который обновится асинхронно ниже)
-    await em.save(user)
 
-    // если чат уже создан, значит его использую для сведения с заверителем
-    // иначе чат будет создан и сведение будет сделано в отдельной службе src/job/meetHalfUserReadyToWitnessChat.ts
+    /**
+     * если чат уже создан, значит его использую для сведения с заверителем
+     * иначе чат будет создан и сведение будет сделано в отдельной службе
+     * @see {@link meetHalfUserReadyToWitnessChat.ts}
+     */
+
     if (user.witnessChat?.id) {
-      await meetHalfUserWitness(user, user.witness, prevStatus, body.changesetTranslated)
+      user.witness = await findWitness(user)
+      const neighbors= await findNeighbors(user,3)
+      await meetHalfUserWitness(user, user.witness, neighbors, prevStatus, body.changesetTranslated)
     }
 
+    // сохраняю переданные данные (пока без чата заверения, который обновится асинхронно позже)
+    await em.save(user)
+
+
     res.json(response({
-      witness_id: user.witness.id,
+      witness_id: user.witness?.id,
     }))
   })
 }

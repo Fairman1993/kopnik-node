@@ -22,7 +22,7 @@ export default async function (req: Request, res: Response) {
       status: StatusEnum.Pending,
     },
     order: {updatedAt: 'DESC'},
-    relations: ['witness',]
+    relations: ['witness',] // чтобы корректно отрабатывался plainForCurrentUser
   })
 
   res.json(response(result.map(eachUser => plainForCurrentUser(eachUser,))))

@@ -9,7 +9,8 @@ import {VK} from "vk-io";
 import FriendStatusEnum from "@/di/vk-io/FriendStatusEnum";
 import FriendsFriendStatusEx from "@/vk/utils/FriendsFriendStatusEx";
 import meetHalfUserReadyToWitnessChat from "@/job/meetHalfUserReadyToWitnessChat";
-import StatusEnum from "@entity/user/StatusEnum";
+import StatusEnum from "@entity/user/StatusEnum"
+
 
 describe('updateProfile', () => {
   let witness: User,
@@ -20,7 +21,7 @@ describe('updateProfile', () => {
   beforeAll(async () => {
     vk = container.vk
     vk.api.friends.areFriends = jest.fn(vk.api.friends.areFriends)
-    vk.api.messages.send = jest.fn(vk.api.messages.send)
+    vk.api.messages.send = jest.fn(vk.api.messages.send);
 
     await container.provideDatabase()
     await container.provideI18next()
@@ -32,7 +33,14 @@ describe('updateProfile', () => {
     })
   })
 
-  it('HeSendRequest', async () => {
+  beforeEach(async ()=>{
+    jest.resetAllMocks()
+  })
+
+  /**
+   * Тестовый пользователь имеет статус Новый, поэтому нет чата заверения и запускается асинхронный сценарий с первичным заверением
+   */
+  it('async', async () => {
     halfUser = await createTestUser('main',{
       status: StatusEnum.New,
     })
@@ -64,7 +72,10 @@ describe('updateProfile', () => {
     expect((vk.api.messages.send as jest.Mock).mock.calls).toHaveLength(1)
   })
 
-  it.only('friends', async () => {
+  /**
+   * Тестовый пользователь имеет статус Подтвержден, поэтому есть чат заверения и запускается синхронный сценарий с частичным заверением изменениями данных
+   */
+  it ('sync', async () => {
     halfUser = await createTestUser('halfUser',)
     const res = await request(app)
       .post('/api/users/updateProfile')

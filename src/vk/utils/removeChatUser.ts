@@ -15,16 +15,16 @@ export default async function removeChatUser(chat: Chat, user: User, ): Promise<
     return
   }
 
+  logger.info({
+    chat,
+    added: plain(user),
+  }, `Исключаю [${user.iof}] из чата [${chat.id}] [${chat.inviteLink}]`)
+
   try {
     await vk.api.messages.removeChatUser({
       chat_id: chat.id,
       user_id: user.mid,
     })
-
-    logger.info({
-      chat,
-      added: plain(user),
-    }, `Исключил ${user.iof} из чата ${chat.id} ${chat.inviteLink}`)
   }
   catch(err){
     if (err.code!=935) {

@@ -6,7 +6,7 @@ import createTestUser from "@entity/user/test-utils/createTestUser";
 import findWitness from "@/findWitness/findWitness";
 import testUserFactory from "@entity/user/test-utils/testUserFactory";
 
-describe('User', () => {
+describe('findWitness', () => {
   let globalWitness,
     localWitness
 

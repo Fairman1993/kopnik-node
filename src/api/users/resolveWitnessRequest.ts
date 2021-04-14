@@ -9,6 +9,7 @@ import StatusEnum from "@entity/user/StatusEnum";
 import KError from "@/error/KError";
 import informHalfUser from "@/vk/informHalfUser";
 import transaction from "@/transaction/transaction";
+import removeChatUser from "@/vk/utils/removeChatUser";
 
 /**
  *

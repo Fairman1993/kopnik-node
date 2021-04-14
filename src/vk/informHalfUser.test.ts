@@ -21,12 +21,12 @@ describe('informHalfUser', () => {
     (vk.api.messages.send as jest.Mock).mockClear()
   })
 
-  it('confirme', async () => {
-    await informHalfUser(testUser({status: StatusEnum.Confirmed, witnessChat: new Chat(1234)}), konaz())
+  it('confirm', async () => {
+    await informHalfUser(testUser({status: StatusEnum.Confirmed, witnessChat: new Chat(1234, 'link/link')}), konaz())
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('Борода')
   })
   it('decline', async () => {
-    await informHalfUser(testUser({status: StatusEnum.Declined, witnessChat: new Chat(1234)}), konaz())
+    await informHalfUser(testUser({status: StatusEnum.Declined, witnessChat: new Chat(1234, 'link/link')}), konaz())
     expect((vk.api.messages.send as jest.Mock).mock.calls[0][0].message).toContain('Борода')
   })
 })
