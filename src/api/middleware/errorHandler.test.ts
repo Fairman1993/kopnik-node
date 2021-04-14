@@ -12,5 +12,6 @@ describe('errorHandler', () => {
     expect(res.body.error).toHaveProperty('error_msg', 'test error')
     expect(res.body.error).toHaveProperty('error_code',)
     expect(res.body.error).toHaveProperty('error_stack', )
+    expect(res.body).toHaveProperty('version', )
   })
 })
