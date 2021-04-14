@@ -77,7 +77,7 @@ export class User {
   @Column({nullable: true,})
   birthYear: number
 
-  @Column()
+  @Column({nullable: true,})
   passport: string
 
   @Index()

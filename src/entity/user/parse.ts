@@ -15,14 +15,14 @@ export default function parse(plain: IUserPlain,): User {
   mergeScalar(result, 'patronymic', plain.patronymic)
   mergeScalar(result, 'photo', plain.photo)
 
-  mergeScalar(result, 'birthYear', plain.birthYear)
+  // mergeScalar(result, 'birthYear', plain.birthYear)
   mergeScalar(result, 'role', plain.role)
   mergeScalar(result, 'isWitness', plain.isWitness)
   mergeScalar(result, 'witnessRadius', plain.witnessRadius)
   mergeScalar(result, 'status', plain.status)
   mergeScalar(result, 'rank', plain.rank)
   mergeScalar(result, 'domain', plain.domain)
-  mergeScalar(result, 'passport', plain.passport)
+  // mergeScalar(result, 'passport', plain.passport)
   mergeScalar(result, 'mid', plain.mid)
 
   mergeScalar(result, 'locale', plain.locale)

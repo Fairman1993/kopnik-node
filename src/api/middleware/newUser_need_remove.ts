@@ -28,10 +28,10 @@ export default async function (req: Request, res: Response, next: Function) {
       lastName: vkUser.last_name || '',
       patronymic: vkUser.nickname || '',
       photo: vkUser.photo_200 || '',
-      passport: '',
+      // passport: '',
       latitude: 0,
       longitude: 0,
-      birthYear: null, //bdate?.getFullYear() || 19,
+      // birthYear: null, //bdate?.getFullYear() || 19,
       domain: vkUser.domain,
       mid: vkUser.id,
     })

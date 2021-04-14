@@ -29,10 +29,10 @@ export default async function (accessToken, refreshToken, params, profile, done)
       lastName: profile.name.familyName || '',
       patronymic: profile.nickname || '',
       photo: profile.photos[0].value || '',
-      passport: '',
+      // passport: '',
       latitude: 0,
       longitude: 0,
-      birthYear: null, //bdate?.getFullYear() || 19,
+      // birthYear: null, //bdate?.getFullYear() || 19,
       domain: profile.username,
       mid: profile.id,
     })

@@ -20,8 +20,8 @@ export default interface IUserPlain {
   locale: string
   domain: string
   photo: string
-  birthYear: number
-  passport: string
+  // birthYear: number
+  // passport: string
   location: {
     lat: number,
     lng: number

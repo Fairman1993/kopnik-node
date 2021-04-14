@@ -8,8 +8,8 @@ export default function (user: User, data: Partial<User>) {
   user.lastName = data.lastName ?? user.lastName
   user.firstName = data.firstName ?? user.firstName
   user.patronymic = data.patronymic ?? user.patronymic
-  user.birthYear = data.birthYear ?? user.birthYear
-  user.passport = data.passport ?? user.passport
+  // user.birthYear = data.birthYear ?? user.birthYear
+  // user.passport = data.passport ?? user.passport
   user.latitude = data.latitude ?? user.latitude
   user.longitude = data.longitude ?? user.longitude
   user.photo = data.photo ?? user.photo

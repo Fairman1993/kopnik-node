@@ -18,7 +18,7 @@ export default function plain(user: User, options: { isCurrentUser?: boolean, is
     patronymic: user.patronymic,
     photo: user.photo,
     location: {lat: user.latitude, lng: user.longitude},
-    birthYear: user.birthYear,
+    // birthYear: user.birthYear,
     role: user.role,
     isWitness: user.isWitness,
     witnessRadius: user.witnessRadius,
@@ -26,7 +26,7 @@ export default function plain(user: User, options: { isCurrentUser?: boolean, is
     rank: user.rank,
     domain: user.domain,
 
-    passport: user.passport,
+    // passport: user.passport,
     witness: plainRelation(user.witness),
     foremanRequest: plainRelation(user.foremanRequest),
     foreman: plainRelation(user.foreman),
@@ -39,9 +39,9 @@ export default function plain(user: User, options: { isCurrentUser?: boolean, is
     mid: user.mid,
   }
   // passport
-  if (!options.isCurrentUser && !options.isCurrentUserWitnessRequest) {
-    delete result.passport
-  }
+  // if (!options.isCurrentUser && !options.isCurrentUserWitnessRequest) {
+  //   delete result.passport
+  // }
   // witness
   if (!options.isCurrentUser && !options.isCurrentUserWitnessRequest) {
     delete result.witness
