@@ -16,16 +16,16 @@ export default async function (chat: Chat, user: User, options: { visibleMessage
   }
 
   try {
+    logger.info({
+      chat,
+      added: plain(user),
+    }, `Приглашаю [${user.iof}] в чат [${chat.id}] [${chat.inviteLink}]`)
+
     await vk.api.messages.addChatUser({
       chat_id: chat.id,
       user_id: user.mid,
       visible_messages_count: options.visibleMessagesCount || 0,
     })
-
-    logger.info({
-      chat,
-      added: plain(user),
-    }, `Пригласил ${user.iof} в чат ${chat.id} ${chat.inviteLink}`)
   }
     // возможно пользователь уже в чате
   catch (err) {

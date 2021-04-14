@@ -20,7 +20,7 @@ export default async function (peer_id: number, data: MessagesSendParams): Promi
   for (let eachMessage of messages) {
     logger.info({
       chatId: peer_id
-    }, `${peer_id}: ${eachMessage}`)
+    }, `peer_id [${peer_id}]: ${eachMessage}`)
 
     await vk.api.messages.send({
       peer_id,

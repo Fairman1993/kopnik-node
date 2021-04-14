@@ -7,7 +7,6 @@ import konaz from "@entity/user/konaz";
 import addChatUser from "@/vk/utils/addChatUser";
 
 /**
- * @deprecated
  * Добавляет пользователя в чат, если он еще не там
  * doc: https://vk.com/dev/messages.getChatPreview
  */

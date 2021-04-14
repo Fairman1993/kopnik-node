@@ -2,8 +2,6 @@ import {User} from "@entity/user/User.entity";
 import container from "@/di/container";
 import {basename} from "path";
 import plain from "@entity/user/plain";
-import {MessagesSendParams} from "vk-io/lib/api/schemas/params";
-import _ from 'lodash'
 import getChatInviteLink from "@/vk/utils/getChatInviteLink";
 import Chat from "@entity/Chat.entity";
 
@@ -11,6 +9,13 @@ import Chat from "@entity/Chat.entity";
 export default async function (title: string, users: User[]): Promise<Chat> {
   const vk = container.vk
   const logger = container.createLogger({name: basename(__filename),})
+
+  logger.info({
+    chat: {
+      title,
+      participants: users.map(eachUser => plain(eachUser)),
+    }
+  }, `Создаю чат [${title}] для ${users.map(eachUser => `[${eachUser.iof}]`).join(', ')}`)
 
   const chatId = await vk.api.messages.createChat({
     user_ids: [...users.map(eachUser => eachUser.mid)],
@@ -27,7 +32,7 @@ export default async function (title: string, users: User[]): Promise<Chat> {
       title,
       participants: users.map(eachUser => plain(eachUser)),
     }
-  }, `Новый чат ${title} для ${users.map(eachUser => eachUser.iof).join(', ')}`)
+  }, `Создал чат [${title}] для ${users.map(eachUser => `[${eachUser.iof}]`).join(', ')}`)
 
   return chat
 }

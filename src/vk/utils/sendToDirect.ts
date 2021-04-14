@@ -1,5 +1,5 @@
 import {MessagesSendParams} from "vk-io/lib/api/schemas/params";
-import _send from "@/vk/utils/send";
+import send from "@/vk/utils/send";
 import Chat from "@entity/Chat.entity";
 import {User} from "@entity/user/User.entity";
 
@@ -10,5 +10,5 @@ import {User} from "@entity/user/User.entity";
 // doc: https://vk.com/dev/messages.createChat
 // https://vk.com/dev/messages.send
 export default async function (user: User, data: MessagesSendParams): Promise<void> {
-  await _send(user.mid, data)
+  await send(user.mid, data)
 }
