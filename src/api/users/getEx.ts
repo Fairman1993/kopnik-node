@@ -20,7 +20,9 @@ export default async function (req: Request, res: Response) {
     relations: ['witnessRequests', 'foremanRequest', 'foreman', 'subordinates', 'foremanRequests',]
   })
 
-  user.witnessRequests= user.witnessRequests.filter(wr=>wr.status===StatusEnum.Pending)
+  user.witnessRequests= user.witnessRequests
+    .filter(wr=>wr.status===StatusEnum.Pending && wr.witnessChat?.inviteLink)
+    .sort((wr1, wr2)=>wr1.updatedAt>wr2.updatedAt?-1:1)
 
   res.json(response(plainForCurrentUser(user,)))
 }

@@ -38,7 +38,7 @@ const constants = {
     },
     logger: {
       console: {
-        shortSQL: true
+        shortSQL: false
       }
     }
   },

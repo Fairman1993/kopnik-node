@@ -20,10 +20,11 @@ export default async function (req: Request, res: Response) {
     where: {
       witness: context.user,
       status: StatusEnum.Pending,
+      // 'witnessChat.inviteLink': Raw(alias=>`${alias} is not null`)
     },
     order: {updatedAt: 'DESC'},
     relations: ['witness',] // чтобы корректно отрабатывался plainForCurrentUser
   })
 
-  res.json(response(result.map(eachUser => plainForCurrentUser(eachUser,))))
+  res.json(response(result.filter(eachHalfUser=>eachHalfUser.witnessChat?.inviteLink).map(eachHalfUser => plainForCurrentUser(eachHalfUser,))))
 }

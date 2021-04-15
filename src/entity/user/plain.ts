@@ -30,6 +30,7 @@ export default function plain(user: User, options: { isCurrentUser?: boolean, is
     witness: plainRelation(user.witness),
     foremanRequest: plainRelation(user.foremanRequest),
     foreman: plainRelation(user.foreman),
+
     subordinates: plainRelations(user.subordinates),
     foremanRequests: plainRelations(user.foremanRequests),
     witnessRequests: plainRelations(user.witnessRequests),
