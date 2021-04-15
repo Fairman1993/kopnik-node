@@ -1,6 +1,6 @@
 {
   "name": "kopnik-node",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Official kopnik.org server",
   "scripts": {
     "db": "docker-compose up db",
